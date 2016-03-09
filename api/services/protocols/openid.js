@@ -1,5 +1,4 @@
 'use strict'
-const passport = require('passport')
 /**
  * OpenID Authentication Protocol
  *
@@ -17,11 +16,14 @@ const passport = require('passport')
  * @param {Object}   profile
  * @param {Function} next
  */
-module.exports = function (req, identifier, profile, next) {
-  const query = {
-    identifier: identifier,
-    protocol: 'openid'
-  }
+module.exports = module.exports = (app) => {
+  const passport = app.services.PassportService.passport
+  return (req, identifier, profile, next) => {
+    const query = {
+      identifier: identifier,
+      protocol: 'openid'
+    }
 
-  passport.connect(req, query, profile, next)
+    passport.connect(req, query, profile, next)
+  }
 }

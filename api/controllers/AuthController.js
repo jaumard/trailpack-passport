@@ -5,10 +5,15 @@ const Controller = require('trails-controller')
 
 module.exports = class AuthController extends Controller {
   login(req, res) {
-    this.app.services.PassportService.login(req.body.identifier, req.body.password).then((user) => {
-      const token = this.app.services.PassportService.createToken(user)
-      res.json({token: token, user: user})
-    }).catch((e) => {
+    this.app.services.PassportService.login(req.body.identifier, req.body.password).then(user => {
+      if (this.app.config.session.strategies.jwt) {
+        const token = this.app.services.PassportService.createToken(user)
+        res.json({token: token, user: user})
+      }
+      else {
+        res.json(user)
+      }
+    }).catch(e => {
       this.app.log.error(e)
       if (e.code == 'E_USER_NOT_FOUND') {
         res.notFound(req, res)
@@ -30,6 +35,9 @@ module.exports = class AuthController extends Controller {
         res.serverError(err, req, res)
       }
       else {
+        if (req.session) {
+          req.session.authenticated = true;
+        }
         res.redirect(this.app.config.session.redirect.login)
       }
     })

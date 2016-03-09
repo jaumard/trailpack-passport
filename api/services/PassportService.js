@@ -4,7 +4,6 @@ const Service = require('trails-service')
 
 const bcrypt = require('bcrypt-nodejs')
 const jwt = require('jsonwebtoken')
-const passport = require('passport')
 
 /**
  * @module PassportService
@@ -14,7 +13,7 @@ module.exports = class PassportService extends Service {
   constructor(app) {
     super(app)
     this.protocols = require('./protocols')
-    this.passport = passport
+    this.passport = require('passport')
   }
 
   /**
@@ -52,7 +51,7 @@ module.exports = class PassportService extends Service {
     // Redirect the user to the provider for authentication. When complete,
     // the provider will redirect the user back to the application at
     //     /auth/:provider/callback
-    passport.authenticate(provider, options)(req, res, req.next);
+    this.passport.authenticate(provider, options)(req, res, req.next);
   }
 
   callback(req, res, next) {
@@ -63,7 +62,7 @@ module.exports = class PassportService extends Service {
         .catch(e => next(e))
     }
     else {
-      passport.authenticate(provider, next)(req, res, req.next);
+      this.passport.authenticate(provider, next)(req, res, req.next);
     }
   }
 

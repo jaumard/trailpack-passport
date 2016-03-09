@@ -113,32 +113,16 @@ module.exports = {
 
 ## Usage
 
-### Route 
-Routes need to be added under `config/routes.js` 
+### Policies 
+Now you can apply some policies to control sessions under `config/policies.js` 
 ```
-{
-    method: 'GET',
-    path: '/auth/{provider}/callback',
-    handler: 'AuthController.callback'
-  }, {
-    method: 'GET',
-    path: '/auth/{provider}/callback',
-    handler: 'AuthController.callback'
-  }, {
-    method: 'GET',
-    path: '/auth/{provider}/{action}',
-    handler: 'AuthController.callback'
-  },
-  {
-    method: 'GET',
-    path: '/auth/{provider}',
-    handler: 'AuthController.provider'
-  },
-  {
-    method: 'GET',
-    path: '/logout',
-    handler: 'AuthController.logout'
+  ViewController: {
+    helloWorld: [ 'Passport.sessionAuth' ]
   }
+  or 
+  ViewController: {
+      helloWorld: [ 'Passport.jwt' ]
+    }
 ```
 
 ## License

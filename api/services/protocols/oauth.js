@@ -1,5 +1,5 @@
 'use strict'
-const passport = require('passport')
+
 /**
  * OAuth Authentication Protocol
  *
@@ -19,16 +19,19 @@ const passport = require('passport')
  * @param {Object}   profile
  * @param {Function} next
  */
-module.exports = function (req, token, tokenSecret, profile, next) {
-  const query = {
-    identifier: profile.id,
-    protocol: 'oauth',
-    tokens: {token: token}
-  }
+module.exports = (app) => {
+  const passport = app.services.PassportService.passport
+  return (req, token, tokenSecret, profile, next) => {
+    const query = {
+      identifier: profile.id,
+      protocol: 'oauth',
+      tokens: {token: token}
+    }
 
-  if (tokenSecret !== undefined) {
-    query.tokens.tokenSecret = tokenSecret
-  }
+    if (tokenSecret !== undefined) {
+      query.tokens.tokenSecret = tokenSecret
+    }
 
-  passport.connect(req, query, profile, next)
+    passport.connect(req, query, profile, next)
+  }
 }
