@@ -114,9 +114,31 @@ module.exports = {
 ## Usage
 
 ### Route 
-A route added with annotation will replace any previous route set under `config/routes.js` (for a same path).
+Routes need to be added under `config/routes.js` 
 ```
-
+{
+    method: 'GET',
+    path: '/auth/{provider}/callback',
+    handler: 'AuthController.callback'
+  }, {
+    method: 'GET',
+    path: '/auth/{provider}/callback',
+    handler: 'AuthController.callback'
+  }, {
+    method: 'GET',
+    path: '/auth/{provider}/{action}',
+    handler: 'AuthController.callback'
+  },
+  {
+    method: 'GET',
+    path: '/auth/{provider}',
+    handler: 'AuthController.provider'
+  },
+  {
+    method: 'GET',
+    path: '/logout',
+    handler: 'AuthController.logout'
+  }
 ```
 
 ## License
