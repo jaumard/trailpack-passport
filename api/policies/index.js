@@ -1,0 +1,1 @@
+exports.Passport = require('./Passport')

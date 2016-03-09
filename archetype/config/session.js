@@ -1,30 +1,3 @@
-# trailpack-passport
-[![Gitter][gitter-image]][gitter-url]
-[![NPM version][npm-image]][npm-url]
-[![NPM downloads][npm-download]][npm-url]
-[![Build status][ci-image]][ci-url]
-[![Dependency Status][daviddm-image]][daviddm-url]
-[![Code Climate][codeclimate-image]][codeclimate-url]
-
-:package: Trailpack to allow passport authentification to Trails application
-
-WARNING : Currently in development ! 
-
-## Intallation
-With yo : 
-
-```
-npm install -g yo generator-trails
-yo trails:trailpack trailpack-passport
-```
-
-With npm (you will have to create config file manually) :
- 
-`npm install --save trailpack-passport`
-
-## Configuration
-```js
-// config/session.js
 'use strict'
 
 const JwtStrategy = require('passport-jwt').Strategy
@@ -109,28 +82,3 @@ module.exports = {
      }*/
   }
 }
-```
-
-## Usage
-
-### Route 
-A route added with annotation will replace any previous route set under `config/routes.js` (for a same path).
-```
-
-```
-
-## License
-[MIT](https://github.com/jaumard/trailpack-passport/blob/master/LICENSE)
-
-
-[npm-image]: https://img.shields.io/npm/v/trailpack-passport.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/trailpack-passport
-[npm-download]: https://img.shields.io/npm/dt/trailpack-passport.svg
-[ci-image]: https://travis-ci.org/jaumard/trailpack-passport.svg?branch=master
-[ci-url]: https://travis-ci.org/jaumard/trailpack-passport
-[daviddm-image]: http://img.shields.io/david/jaumard/trailpack-passport.svg?style=flat-square
-[daviddm-url]: https://david-dm.org/jaumard/trailpack-passport
-[codeclimate-image]: https://img.shields.io/codeclimate/github/jaumard/trailpack-passport.svg?style=flat-square
-[codeclimate-url]: https://codeclimate.com/github/jaumard/trailpack-passport
-[gitter-image]: http://img.shields.io/badge/+%20GITTER-JOIN%20CHAT%20%E2%86%92-1DCE73.svg?style=flat-square
-[gitter-url]: https://gitter.im/trailsjs/trails

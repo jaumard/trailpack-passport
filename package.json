@@ -1,0 +1,70 @@
+{
+  "name": "trailpack-passport",
+  "version": "0.0.1-alpha-1",
+  "description": "Trailpack to allow passport authentification to Trails application",
+  "homepage": "https://github.com/jaumard/trailpack-passport",
+  "author": {
+    "name": "Jimmy Aumard",
+    "email": "jimmy.aumard@gmail.com",
+    "url": "https://github.com/jaumard"
+  },
+  "main": "index.js",
+  "keywords": [
+    "trailpack",
+    "trails",
+    "trailjs",
+    "passport",
+    "jwt",
+    "auth",
+    "oauth",
+    "oauth2",
+    "openid",
+    "facebook",
+    "twitter",
+    "github",
+    "login"
+  ],
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "crypto": "0.0.3",
+    "joi": "^8.0.4",
+    "jsonwebtoken": "^5.7.0",
+    "lodash": "^4.5.0",
+    "passport": "^0.3.2",
+    "passport-jwt": "^2.0.0",
+    "passport-local": "^1.0.0",
+    "trailpack": "^1.0.0-beta-2",
+    "trails-controller": "^1.0.0-beta-2",
+    "trails-model": "^1.0.0-beta-2",
+    "trails-policy": "^1.0.1",
+    "trails-service": "^1.0.0-beta-2",
+    "validator": "^5.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^2.2.0",
+    "eslint-config-trails": "^1.0.4",
+    "mocha": "^2.4.5",
+    "smokesignals": "^1.0.2",
+    "supertest": "^1.1.0",
+    "trailpack-core": "^1.0.0-beta-3",
+    "trailpack-express4": "^1.0.0-alpha-3",
+    "trailpack-router": "^1.0.0-beta-4",
+    "trailpack-waterline": "^1.0.0-alpha-6",
+    "trails": "^1.0.0-beta-2",
+    "waterline-sqlite3": "^1.0.0"
+  },
+  "bundledDependencies": [
+    "trailpack"
+  ],
+  "scripts": {
+    "test": "eslint --fix . && mocha"
+  },
+  "engines": {
+    "node": ">= 4.0.0"
+  },
+  "eslintConfig": {
+    "extends": "trails"
+  },
+  "repository": "https://github.com/jaumard/trailpack-passport",
+  "license": "MIT"
+}
