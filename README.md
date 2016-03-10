@@ -8,7 +8,7 @@
 
 :package: Trailpack to allow passport authentification to Trails application
 
-WARNING : Currently in development ! 
+WARNING : This Trailpack work only with `trailpack-express4` 
 
 ## Intallation
 With yo : 
