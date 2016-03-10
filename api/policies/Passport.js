@@ -49,7 +49,7 @@ module.exports = class PassportPolicy extends Policy {
           res.status(403).json()
         }
         else {
-          res.redirect(this.app.config.session.redirect.login)
+          res.redirect(this.app.config.session.redirect.logout)
         }
       }
     })
