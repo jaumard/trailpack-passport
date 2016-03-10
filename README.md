@@ -125,6 +125,19 @@ Now you can apply some policies to control sessions under `config/policies.js`
     }
 ```
 
+### Log/Register users
+You can register or log users with third party strategies by redirect the user to : 
+```
+http://localhost:3000/auth/{provider}
+example github 
+http://localhost:3000/auth/github
+```
+
+For local authentification you have to POST credentials to `/auth/local` in order to log the user.
+
+### Logout
+Just make a GET to `auth/logout`
+
 ## License
 [MIT](https://github.com/jaumard/trailpack-passport/blob/master/LICENSE)
 

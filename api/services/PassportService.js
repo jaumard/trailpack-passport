@@ -4,6 +4,7 @@ const Service = require('trails-service')
 
 const bcrypt = require('bcrypt-nodejs')
 const jwt = require('jsonwebtoken')
+const _ = require('lodash')
 
 /**
  * @module PassportService
@@ -55,11 +56,12 @@ module.exports = class PassportService extends Service {
   }
 
   callback(req, res, next) {
-    const provider = req.params.provider
+    const provider = req.params.provider || 'local'
 
     if (provider == 'local') {
-      this.login(req.body.identifier, req.body.password).then(user => next(user))
-        .catch(e => next(e))
+      const id = _.get(this.app, 'config.session.strategies.local.options.usernameField')
+      this.login(req.body.identifier || req.body[id], req.body.password)
+        .then(user => next(null, user)).catch(e => next(e))
     }
     else {
       this.passport.authenticate(provider, next)(req, res, req.next);
@@ -70,25 +72,28 @@ module.exports = class PassportService extends Service {
     const criteria = {}
     criteria[this.app.config.session.strategies.local.options.usernameField] = identifier
 
-    return this.app.orm.User.find(criteria).then((user) => {
-      return new Promise((resolve, reject) => {
-        if (user.length == 0) {
-          reject({
-            code: 'E_USER_NOT_FOUND',
-            message: identifier + ' is not found'
-          })
-        }
-        else if (bcrypt.compareSync(password, user[0].password)) {
-          resolve(user[0])
+    return this.app.orm.User.findOne(criteria).populate('passports').then(user => {
+      let result
+      if (user) {
+        const passport = user.passports.find(passportObj => passportObj.protocol == 'local')
+        if (passport) {
+          if (bcrypt.compareSync(password, passport.password)) {
+            result = Promise.resolve(user)
+          }
+          else {
+            result = Promise.reject(new Error('E_WRONG_PASSWORD'))
+          }
         }
         else {
-          reject({
-            code: 'E_WRONG_PASSWORD',
-            message: 'Password is wrong'
-          })
+          result = Promise.reject(new Error('E_USER_NO_PASSWORD'))
         }
-      })
-    })
+      }
+      else {
+        result = Promise.reject(new Error('E_USER_NOT_FOUND'))
+
+      }
+      return result
+    }).catch(e => this.app.log.error(e))
   }
 }
 

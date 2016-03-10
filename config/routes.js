@@ -1,5 +1,10 @@
 module.exports = [
   {
+    method: 'POST',
+    path: '/auth/local',
+    handler: 'AuthController.callback'
+  },
+  {
     method: 'GET',
     path: '/auth/{provider}/callback',
     handler: 'AuthController.callback'
@@ -19,7 +24,8 @@ module.exports = [
   },
   {
     method: 'GET',
-    path: '/logout',
+    path: '/auth/logout',
     handler: 'AuthController.logout'
   }
+
 ]

@@ -8,6 +8,8 @@ const Policy = require('trails-policy')
  */
 module.exports = class PassportPolicy extends Policy {
   init(req, res, next) {
+    next()
+    /*
     this.app.services.PassportService.passport.initialize()(req, res, () => {
       // Use the built-in sessions
       this.app.services.PassportService.passport.session()(req, res, () => {
@@ -15,7 +17,7 @@ module.exports = class PassportPolicy extends Policy {
         res.locals.user = req.user
         next()
       })
-    })
+    })*/
   }
 
   jwt(req, res, next) {

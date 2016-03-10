@@ -35,10 +35,33 @@ module.exports = class AuthController extends Controller {
         res.serverError(err, req, res)
       }
       else {
-        if (req.session) {
-          req.session.authenticated = true;
-        }
-        res.redirect(this.app.config.session.redirect.login)
+        req.login(user, err => {
+          if (err) {
+            this.app.log.error(err)
+            res.serverError(err, req, res)
+          }
+          else {
+            // Mark the session as authenticated to work with default Sails sessionAuth.js policy
+            req.session.authenticated = true
+
+            // Upon successful login, send the user to the homepage were req.user
+            // will be available.
+            if (req.wantsJSON) {
+              const result = {
+                redirect: this.app.config.session.redirect.login,
+                user: user
+              }
+
+              if (this.app.config.session.strategies.jwt) {
+                result.token = this.app.services.PassportService.createToken(user)
+              }
+              res.json(result)
+            }
+            else {
+              res.redirect(this.app.config.session.redirect.login)
+            }
+          }
+        })
       }
     })
   }
