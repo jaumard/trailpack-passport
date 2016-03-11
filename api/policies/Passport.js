@@ -24,15 +24,15 @@ module.exports = class PassportPolicy extends Policy {
     this.init(req, res, () => {
       this.app.services.PassportService.passport.authenticate('jwt', (error, user, info) => {
         if (error) {
-          res.serverError(error)
+          return res.serverError(error)
         }
-        else if (!user) {
-          res.status(403).send(info.message)
+
+        if (! user) {
+          return res.status(403).send(info.message)
         }
-        else {
-          req.user = user
-          next()
-        }
+
+        req.user = user
+        next()
       })(req, res)
     })
   }
@@ -42,19 +42,16 @@ module.exports = class PassportPolicy extends Policy {
       // User is allowed, proceed to the next policy,
       // or if this is the last policy, the controller
       if (req.session && req.session.authenticated) {
-        next()
+        return next()
       }
-      else {
-        // User is not allowed
-        // (default res.forbidden() behavior can be overridden in `config/403.js`)
-        if (req.wantsJSON) {
-          res.status(403).json()
-        }
-        else {
-          res.redirect(this.app.config.session.redirect.logout)
-        }
+
+      // User is not allowed
+      // (default res.forbidden() behavior can be overridden in `config/403.js`)
+      if (req.wantsJSON) {
+        return res.status(403).json()
       }
+
+      res.redirect(this.app.config.session.redirect.logout)
     })
   }
 }
-

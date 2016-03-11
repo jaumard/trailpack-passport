@@ -9,16 +9,15 @@ const bcrypt = require('bcrypt')
  * @param {Object}   passport
  * @param {Function} next
  */
-const hashPassword = (passport, next) => {
-  if (passport.password) {
-    bcrypt.hash(passport.password, 10, (err, hash) => {
-      passport.password = hash
-      next(err, passport)
-    })
+function hashPassword(passport, next) {
+  if (! passport.password) {
+    return next(null, passport)
   }
-  else {
-    next(null, passport)
-  }
+
+  bcrypt.hash(passport.password, 10, (err, hash) => {
+    passport.password = hash
+    next(err, passport)
+  })
 }
 
 
