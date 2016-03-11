@@ -57,6 +57,7 @@ const ISSUER = 'localhost'
 const AUDIENCE = 'localhost'
 
 module.exports = {
+  secret: SECRET,//secret use by express for his sessions
   redirect: {
     login: '/',//Login successful
     logout: '/'//Logout successful
