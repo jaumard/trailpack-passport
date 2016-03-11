@@ -15,7 +15,9 @@ module.exports = class AuthController extends Controller {
         if (err.message === 'E_USER_NOT_FOUND') {
           res.notFound(req, res)
         }
-        else if (err === 'Not a valid BCrypt hash.' || err.message === 'E_WRONG_PASSWORD' || err.message === 'E_USER_NO_PASSWORD') {
+        else if (err === 'Not a valid BCrypt hash.' ||
+          err.message === 'E_WRONG_PASSWORD' ||
+          err.message === 'E_USER_NO_PASSWORD') {
           res.status(401).json({error: err.message || err})
         }
         else {
