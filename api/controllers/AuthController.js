@@ -13,45 +13,45 @@ module.exports = class AuthController extends Controller {
     this.app.services.PassportService.callback(req, res, (err, user, challenges, statuses) => {
       if (err) {
         if (err.message === 'E_USER_NOT_FOUND') {
-          res.notFound(req, res)
+          return res.notFound(req, res)
         }
-        else if (err === 'Not a valid BCrypt hash.' || err.message === 'E_WRONG_PASSWORD' || err.message === 'E_USER_NO_PASSWORD') {
-          res.status(401).json({error: err.message || err})
+
+        if (err === 'Not a valid BCrypt hash.' ||
+            err.message === 'E_WRONG_PASSWORD' ||
+            err.message === 'E_USER_NO_PASSWORD'
+        ) {
+          return res.status(401).json({error: err.message || err})
         }
-        else {
+
+        this.app.log.error(err)
+        return res.serverError(err, req, res)
+      }
+
+      req.login(user, err => {
+        if (err) {
           this.app.log.error(err)
-          res.serverError(err, req, res)
+          return res.serverError(err, req, res)
         }
-      }
-      else {
-        req.login(user, err => {
-          if (err) {
-            this.app.log.error(err)
-            res.serverError(err, req, res)
-          }
-          else {
-            // Mark the session as authenticated to work with default Sails sessionAuth.js policy
-            req.session.authenticated = true
 
-            // Upon successful login, send the user to the homepage were req.user
-            // will be available.
-            if (req.wantsJSON) {
-              const result = {
-                redirect: this.app.config.session.redirect.login,
-                user: user
-              }
+        // Mark the session as authenticated to work with default Sails sessionAuth.js policy
+        req.session.authenticated = true
 
-              if (this.app.config.session.strategies.jwt) {
-                result.token = this.app.services.PassportService.createToken(user)
-              }
-              res.json(result)
-            }
-            else {
-              res.redirect(this.app.config.session.redirect.login)
-            }
+        // Upon successful login, send the user to the homepage were req.user
+        // will be available.
+        if (req.wantsJSON) {
+          const result = {
+            redirect: this.app.config.session.redirect.login,
+            user: user
           }
-        })
-      }
+
+          if (this.app.config.session.strategies.jwt) {
+            result.token = this.app.services.PassportService.createToken(user)
+          }
+          return res.json(result)
+        }
+
+        return res.redirect(this.app.config.session.redirect.login)
+      })
     })
   }
 
@@ -77,10 +77,9 @@ module.exports = class AuthController extends Controller {
       req.session.authenticated = false
 
     if (req.wantsJSON) {
-      res.json({redirect: this.app.config.session.redirect.logout})
+      return res.json({redirect: this.app.config.session.redirect.logout})
     }
-    else {
-      res.redirect(this.app.config.session.redirect.logout)
-    }
+
+    return res.redirect(this.app.config.session.redirect.logout)
   }
 }

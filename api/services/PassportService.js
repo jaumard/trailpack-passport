@@ -74,28 +74,32 @@ module.exports = class PassportService extends Service {
 
     if (provider === 'local') {
       if (action === 'register' && !req.user) {
-        this.register(req.body).then(user => next(null, user)).catch(e => next(e))
+        return this.register(req.body)
+        .then(user => next(null, user))
+        .catch(next)
       }
-      else if (action === 'connect' && req.user) {
-        this.connect(req.user, req.body.password).then(user => next(null, req.user))
-          .catch(e => next(e))
+
+      if (action === 'connect' && req.user) {
+        return this.connect(req.user, req.body.password)
+        .then(user => next(null, req.user))
+        .catch(next)
       }
-      else if (action === 'disconnect' && req.user) {
-        this.disconnect(req, next)
+
+      if (action === 'disconnect' && req.user) {
+        return this.disconnect(req, next)
       }
-      else {
-        const id = _.get(this.app, 'config.session.strategies.local.options.usernameField')
-        this.login(req.body.identifier || req.body[id], req.body.password)
-          .then(user => next(null, user)).catch(e => next(e))
-      }
+
+      const id = _.get(this.app, 'config.session.strategies.local.options.usernameField')
+      this.login(req.body.identifier || req.body[id], req.body.password)
+      .then(user => next(null, user))
+      .catch(next)
     }
     else {
       if (action === 'disconnect' && req.user) {
-        this.disconnect(req, next)
+        return this.disconnect(req, next)
       }
-      else {
-        this.passport.authenticate(provider, next)(req, res, req.next)
-      }
+
+      this.passport.authenticate(provider, next)(req, res, req.next)
     }
   }
 
@@ -153,17 +157,23 @@ module.exports = class PassportService extends Service {
    * @param next callback to call after
    */
   disconnect(req, next) {
-    const user = req.user, provider = req.params.provider || 'local', query = {}
+    const user = req.user
+    const provider = req.params.provider || 'local'
+    const query = {}
 
     query.user = user.id
     query[provider === 'local' ? 'protocol' : 'provider'] = provider
 
-    this.app.orm.Passport.findOne(query).then(passport => {
-      if (passport) {
-        return this.app.orm.Passport.destroy(passport.id).then(passport => next(null, user))
-          .catch(e=>next(e))
+    this.app.orm.Passport.findOne(query)
+    .then(passport => {
+      if (! passport) {
+        throw new Error('E_USER_NO_PASSWORD')
       }
-    }).catch(e => next(e))
+
+      return this.app.orm.Passport.destroy(passport.id)
+      .then(passport => next(null, user))
+    })
+    .catch(next)
   }
 
   /**
@@ -176,7 +186,8 @@ module.exports = class PassportService extends Service {
     const criteria = {}
     criteria[_.get(this.app, 'config.session.strategies.local.options.usernameField') || 'username'] = identifier
 
-    return this.app.orm.User.findOne(criteria).populate('passports').then(user => {
+    return this.app.orm.User.findOne(criteria).populate('passports')
+    .then(user => {
       if (! user) {
         throw new Error('E_USER_NOT_FOUND')
       }
