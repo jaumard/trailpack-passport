@@ -5,7 +5,7 @@ module.exports = [
     handler: 'AuthController.callback'
   },
   {
-    method: 'GET',
+    method: 'POST',
     path: '/auth/local/{action}',
     handler: 'AuthController.callback'
   },

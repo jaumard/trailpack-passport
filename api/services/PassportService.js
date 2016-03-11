@@ -3,6 +3,7 @@
 const Service = require('trails-service')
 
 const bcrypt = require('bcrypt-nodejs')
+const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
 const _ = require('lodash')
 
@@ -73,10 +74,11 @@ module.exports = class PassportService extends Service {
 
     if (provider === 'local') {
       if (action === 'register' && !req.user) {
-        this.register(req.body, next)
+        this.register(req.body).then(user => next(null, user)).catch(e => next(e))
       }
       else if (action === 'connect' && req.user) {
-        //TODO connect method
+        this.connect(req.user, req.body.password).then(user => next(null, req.user))
+          .catch(e => next(e))
       }
       else if (action === 'disconnect' && req.user) {
         this.disconnect(req, next)
@@ -99,12 +101,50 @@ module.exports = class PassportService extends Service {
 
   /**
    * Register the user
-   * @param req request object
-   * @param next callback
+   * @param userInfos to save
    * @returns {Promise}
    */
-  register(req, next) {
-    //TODO implement
+  register(userInfos) {
+    const password = userInfos.password
+    delete userInfos.password
+
+    // Generating accessToken for API authentication
+    const token = crypto.randomBytes(48).toString('base64');
+
+    return this.app.orm.User.create(userInfos).then(user => {
+      return this.app.orm.Passport.create({
+        protocol: 'local',
+        password: password,
+        user: user.id,
+        accessToken: token
+      }).then(passport => Promise.resolve(user))
+    })
+  }
+
+  /**
+   * Assign local Passport to user
+   *
+   * This function can be used to assign a local Passport to a user who doens't
+   * have one already. This would be the case if the user registered using a
+   * third-party service and therefore never set a password.
+   *
+   * @param {Object}   user
+   * @param {Object}   password
+   * @returns Promise to chain calls
+   */
+  connect(user, password) {
+    return this.app.orm.Passport.findOne({
+      protocol: 'local',
+      user: user.id
+    }).then(passport => {
+      if (!passport) {
+        return this.app.orm.Passport.create({
+          protocol: 'local',
+          password: password,
+          user: user.id
+        })
+      }
+    })
   }
 
   /**
@@ -119,8 +159,10 @@ module.exports = class PassportService extends Service {
     query[provider === 'local' ? 'protocol' : 'provider'] = provider
 
     this.app.orm.Passport.findOne(query).then(passport => {
-      this.app.orm.Passport.destroy(passport.id).then(passport => next(null, user))
-        .catch(e=>next(e))
+      if (passport) {
+        return this.app.orm.Passport.destroy(passport.id).then(passport => next(null, user))
+          .catch(e=>next(e))
+      }
     }).catch(e => next(e))
   }
 
@@ -128,11 +170,11 @@ module.exports = class PassportService extends Service {
    * Log a user and check password
    * @param identifier of the user
    * @param password of the user
-   * @returns {Promise.<T>} promise for next calls
+   * @returns {Promise} promise for next calls
    */
   login(identifier, password) {
     const criteria = {}
-    criteria[this.app.config.session.strategies.local.options.usernameField] = identifier
+    criteria[_.get(this.app, 'config.session.strategies.local.options.usernameField') || 'username'] = identifier
 
     return this.app.orm.User.findOne(criteria).populate('passports').then(user => {
       let result
@@ -155,7 +197,7 @@ module.exports = class PassportService extends Service {
 
       }
       return result
-    }).catch(e => this.app.log.error(e))
+    })
   }
 }
 

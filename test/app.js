@@ -19,7 +19,14 @@ const App = {
       }
     },
     session: {
-      strategies: {}
+      strategies: {
+        local: {
+          strategy: require('passport-local').Strategy,
+          options: {
+            usernameField: 'username'
+          }
+        }
+      }
     },
     main: {
       packs: [
@@ -32,7 +39,23 @@ const App = {
       ]
     },
     routes: [],
-    policies: {}
+    web: {
+      middlewares: {
+        order: [
+          'addMethods',
+          'cookieParser',
+          'session',
+          'passportInit',
+          'passportSession',
+          'bodyParser',
+          'methodOverride',
+          'router',
+          'www',
+          '404',
+          '500'
+        ]
+      }
+    }
   }
 }
 

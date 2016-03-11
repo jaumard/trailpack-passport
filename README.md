@@ -23,6 +23,26 @@ With npm (you will have to create config file manually) :
 `npm install --save trailpack-passport`
 
 ## Configuration
+You need to add `passportInit` and optionally `passportSession` : 
+```js
+// config/web.js
+middlewares: {
+        order: [
+          'addMethods',
+          'cookieParser',
+          'session',
+          'passportInit',
+          'passportSession',
+          'bodyParser',
+          'methodOverride',
+          'router',
+          'www',
+          '404',
+          '500'
+        ]
+      }
+```
+And to configure sessions: 
 ```js
 // config/session.js
 'use strict'
@@ -125,7 +145,7 @@ Now you can apply some policies to control sessions under `config/policies.js`
     }
 ```
 
-### Log/Register users
+### Log/Register users with third party providers
 You can register or log users with third party strategies by redirect the user to : 
 ```
 http://localhost:3000/auth/{provider}
@@ -133,7 +153,17 @@ example github
 http://localhost:3000/auth/github
 ```
 
+### Log/Register users with credentials
+For adding a new user you can make a POST to `auth/local/register`  with at least this fields : `username` (or `email`) and `password`. 
 For local authentification you have to POST credentials to `/auth/local` in order to log the user.
+
+### Disconnect
+If you want to disconnect a user from a provider you can call : 
+```
+http://localhost:3000/auth/{provider}/disconnect
+example if a user don't want to connect with github anymore
+http://localhost:3000/auth/github/disconnect
+```
 
 ### Logout
 Just make a GET to `auth/logout`

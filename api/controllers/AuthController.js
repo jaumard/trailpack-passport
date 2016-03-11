@@ -4,25 +4,6 @@ const Controller = require('trails-controller')
 
 
 module.exports = class AuthController extends Controller {
-  login(req, res) {
-    this.app.services.PassportService.login(req.body.identifier, req.body.password).then(user => {
-      if (this.app.config.session.strategies.jwt) {
-        const token = this.app.services.PassportService.createToken(user)
-        res.json({token: token, user: user})
-      }
-      else {
-        res.json(user)
-      }
-    }).catch(e => {
-      this.app.log.error(e)
-      if (e.code == 'E_USER_NOT_FOUND') {
-        res.notFound(req, res)
-      }
-      else {
-        res.serverError(e, req, res)
-      }
-    })
-  }
 
   provider(req, res) {
     this.app.services.PassportService.endpoint(req, res, req.params.provider)
@@ -31,8 +12,16 @@ module.exports = class AuthController extends Controller {
   callback(req, res) {
     this.app.services.PassportService.callback(req, res, (err, user, challenges, statuses) => {
       if (err) {
-        this.app.log.error(err)
-        res.serverError(err, req, res)
+        if (err.message === 'E_USER_NOT_FOUND') {
+          res.notFound(req, res)
+        }
+        else if (err === 'Not a valid BCrypt hash.' || err.message === 'E_WRONG_PASSWORD' || err.message === 'E_USER_NO_PASSWORD') {
+          res.status(401).json({error: err.message || err})
+        }
+        else {
+          this.app.log.error(err)
+          res.serverError(err, req, res)
+        }
       }
       else {
         req.login(user, err => {
