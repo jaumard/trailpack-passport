@@ -27,7 +27,6 @@
   ],
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
-    "crypto": "0.0.3",
     "joi": "^8.0.4",
     "jsonwebtoken": "^5.7.0",
     "lodash": "^4.6.1",
