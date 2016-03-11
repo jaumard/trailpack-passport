@@ -18,6 +18,9 @@ const App = {
         migrate: 'drop'
       }
     },
+    session:{
+      strategies: {}
+    },
     main: {
       packs: [
         smokesignals.Trailpack,

@@ -25,7 +25,7 @@ module.exports = class PassportService extends Service {
     return jwt.sign({
         user: user.toJSON()
       },
-      this.app.config.session.jwt.tokenOptions.secret,
+      this.app.config.session.strategies.jwt.tokenOptions.secret,
       {
         algorithm: this.app.config.jwt.tokenOptions.algorithm,
         expiresIn: this.app.config.jwt.tokenOptions.expiresInSeconds,
