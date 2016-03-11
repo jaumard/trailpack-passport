@@ -19,7 +19,7 @@ module.exports = class PassportService extends Service {
 
   /**
    * Create a token based on the passed user
-   * @param user
+   * @param user infos to serialize
    */
   createToken(user) {
     return jwt.sign({
@@ -27,14 +27,20 @@ module.exports = class PassportService extends Service {
       },
       this.app.config.session.strategies.jwt.tokenOptions.secret,
       {
-        algorithm: this.app.config.jwt.tokenOptions.algorithm,
-        expiresIn: this.app.config.jwt.tokenOptions.expiresInSeconds,
-        issuer: this.app.config.jwt.tokenOptions.issuer,
-        audience: this.app.config.jwt.tokenOptions.audience
+        algorithm: this.app.config.strategies.jwt.tokenOptions.algorithm,
+        expiresIn: this.app.config.strategies.jwt.tokenOptions.expiresInSeconds,
+        issuer: this.app.config.strategies.jwt.tokenOptions.issuer,
+        audience: this.app.config.strategies.jwt.tokenOptions.audience
       }
     )
   }
 
+  /**
+   * Redirect to the right provider URL for login
+   * @param req request object
+   * @param res response object
+   * @param provider to go to
+   */
   endpoint(req, res, provider) {
     const strategies = this.app.config.session.strategies, options = {}
 
@@ -52,22 +58,78 @@ module.exports = class PassportService extends Service {
     // Redirect the user to the provider for authentication. When complete,
     // the provider will redirect the user back to the application at
     //     /auth/:provider/callback
-    this.passport.authenticate(provider, options)(req, res, req.next);
+    this.passport.authenticate(provider, options)(req, res, req.next)
   }
 
+  /**
+   * Provider callback to log or register the user
+   * @param req request object
+   * @param res response object
+   * @param next callback
+   */
   callback(req, res, next) {
     const provider = req.params.provider || 'local'
+    const action = req.params.action
 
-    if (provider == 'local') {
-      const id = _.get(this.app, 'config.session.strategies.local.options.usernameField')
-      this.login(req.body.identifier || req.body[id], req.body.password)
-        .then(user => next(null, user)).catch(e => next(e))
+    if (provider === 'local') {
+      if (action === 'register' && !req.user) {
+        this.register(req.body, next)
+      }
+      else if (action === 'connect' && req.user) {
+        //TODO connect method
+      }
+      else if (action === 'disconnect' && req.user) {
+        this.disconnect(req, next)
+      }
+      else {
+        const id = _.get(this.app, 'config.session.strategies.local.options.usernameField')
+        this.login(req.body.identifier || req.body[id], req.body.password)
+          .then(user => next(null, user)).catch(e => next(e))
+      }
     }
     else {
-      this.passport.authenticate(provider, next)(req, res, req.next);
+      if (action === 'disconnect' && req.user) {
+        this.disconnect(req, next)
+      }
+      else {
+        this.passport.authenticate(provider, next)(req, res, req.next)
+      }
     }
   }
 
+  /**
+   * Register the user
+   * @param req request object
+   * @param next callback
+   * @returns {Promise}
+   */
+  register(req, next) {
+    //TODO implement
+  }
+
+  /**
+   * Disconnect a provider from the current user by removing the Passport object
+   * @param req request object
+   * @param next callback to call after
+   */
+  disconnect(req, next) {
+    const user = req.user, provider = req.params.provider || 'local', query = {}
+
+    query.user = user.id
+    query[provider === 'local' ? 'protocol' : 'provider'] = provider
+
+    this.app.orm.Passport.findOne(query).then(passport => {
+      this.app.orm.Passport.destroy(passport.id).then(passport => next(null, user))
+        .catch(e=>next(e))
+    }).catch(e => next(e))
+  }
+
+  /**
+   * Log a user and check password
+   * @param identifier of the user
+   * @param password of the user
+   * @returns {Promise.<T>} promise for next calls
+   */
   login(identifier, password) {
     const criteria = {}
     criteria[this.app.config.session.strategies.local.options.usernameField] = identifier

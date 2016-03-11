@@ -6,6 +6,11 @@ module.exports = [
   },
   {
     method: 'GET',
+    path: '/auth/local/{action}',
+    handler: 'AuthController.callback'
+  },
+  {
+    method: 'GET',
     path: '/auth/{provider}/callback',
     handler: 'AuthController.callback'
   }, {
@@ -27,5 +32,4 @@ module.exports = [
     path: '/auth/logout',
     handler: 'AuthController.logout'
   }
-
 ]
