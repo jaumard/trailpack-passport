@@ -14,7 +14,7 @@ module.exports = class PassportTrailpack extends Trailpack {
     }
 
     if (this.app.config.session.strategies && this.app.config.session.strategies.jwt &&
-      _.get(this.app, 'config.session.jwt.tokenOptions.secret') == 'mysupersecuretoken') {
+      _.get(this.app, 'config.session.jwt.tokenOptions.secret') === 'mysupersecuretoken') {
       return Promise.reject(new Error('You need to change the default token !'))
     }
 
@@ -29,13 +29,6 @@ module.exports = class PassportTrailpack extends Trailpack {
   configure() {
     lib.Passports.init(this.app)
     lib.Passports.loadStrategies(this.app)
-  }
-
-  /**
-   * TODO document method
-   */
-  initialize() {
-
   }
 
   constructor(app) {
