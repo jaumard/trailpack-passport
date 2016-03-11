@@ -2,7 +2,7 @@
 
 const Service = require('trails-service')
 
-const bcrypt = require('bcrypt-nodejs')
+const bcrypt = require('bcrypt')
 const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
 const _ = require('lodash')
@@ -177,27 +177,26 @@ module.exports = class PassportService extends Service {
     criteria[_.get(this.app, 'config.session.strategies.local.options.usernameField') || 'username'] = identifier
 
     return this.app.orm.User.findOne(criteria).populate('passports').then(user => {
-      let result
-      if (user) {
-        const passport = user.passports.find(passportObj => passportObj.protocol == 'local')
-        if (passport) {
-          if (bcrypt.compareSync(password, passport.password)) {
-            result = Promise.resolve(user)
-          }
-          else {
-            result = Promise.reject(new Error('E_WRONG_PASSWORD'))
-          }
-        }
-        else {
-          result = Promise.reject(new Error('E_USER_NO_PASSWORD'))
-        }
+      if (! user) {
+        throw new Error('E_USER_NOT_FOUND')
       }
-      else {
-        result = Promise.reject(new Error('E_USER_NOT_FOUND'))
 
+      const passport = user.passports.find(passportObj => passportObj.protocol == 'local')
+      if (! passport) {
+        throw new Error('E_USER_NO_PASSWORD')
       }
-      return result
+
+      return new Promise((resolve, reject) => {
+        bcrypt.compare(password, passport.password, (err, valid) => {
+          if (err) {
+            return reject(err)
+          }
+
+          return valid
+            ? resolve(user)
+            : reject(new Error('E_WRONG_PASSWORD'))
+        })
+      })
     })
   }
 }
-
