@@ -18,7 +18,7 @@ const App = {
         migrate: 'drop'
       }
     },
-    session:{
+    session: {
       strategies: {}
     },
     main: {
@@ -31,12 +31,8 @@ const App = {
         require('../') // trailpack-passport
       ]
     },
-    routes: [
-
-    ],
-    policies: {
-
-    }
+    routes: [],
+    policies: {}
   }
 }
 
