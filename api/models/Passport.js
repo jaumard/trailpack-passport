@@ -1,7 +1,7 @@
 'use strict'
 
 const Model = require('trails-model')
-const bcrypt = require('bcrypt-nodejs')
+const bcrypt = require('bcrypt')
 
 /**
  * Hash a passport password.
