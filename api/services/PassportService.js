@@ -28,10 +28,10 @@ module.exports = class PassportService extends Service {
       },
       this.app.config.session.strategies.jwt.tokenOptions.secret,
       {
-        algorithm: this.app.config.strategies.jwt.tokenOptions.algorithm,
-        expiresIn: this.app.config.strategies.jwt.tokenOptions.expiresInSeconds,
-        issuer: this.app.config.strategies.jwt.tokenOptions.issuer,
-        audience: this.app.config.strategies.jwt.tokenOptions.audience
+        algorithm: this.app.config.session.strategies.jwt.tokenOptions.algorithm,
+        expiresIn: this.app.config.session.strategies.jwt.tokenOptions.expiresInSeconds,
+        issuer: this.app.config.session.strategies.jwt.tokenOptions.issuer,
+        audience: this.app.config.session.strategies.jwt.tokenOptions.audience
       }
     )
   }
