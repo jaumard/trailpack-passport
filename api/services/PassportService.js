@@ -191,7 +191,7 @@ module.exports = class PassportService extends Service {
         throw new Error('E_USER_NOT_FOUND')
       }
 
-      const passport = user.passports.find(passportObj => passportObj.protocol == 'local')
+      const passport = user.passports.find(passportObj => passportObj.protocol === 'local')
       if (!passport) {
         throw new Error('E_USER_NO_PASSWORD')
       }
