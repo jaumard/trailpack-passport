@@ -27,7 +27,7 @@
   ],
   "dependencies": {
     "bcrypt": "^0.8.5",
-    "joi": "^8.0.4",
+    "joi": "^8.1.0",
     "jsonwebtoken": "^6.0.1",
     "lodash": "^4.6.1",
     "passport": "^0.3.2",
