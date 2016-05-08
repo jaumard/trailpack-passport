@@ -30,6 +30,8 @@ module.exports = class PassportPolicy extends Policy {
           res.status(403).send(info.message)
         }
         else {
+          //req.token = req.query.token
+          //delete req.query.token
           req.user = user
           next()
         }
