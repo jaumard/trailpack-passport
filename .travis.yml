@@ -2,6 +2,7 @@ sudo: false
 language: node_js
 node_js:
 - 4
+- 5
 - stable
 addons:
   # Required to compile native modules on newer Node.js versions
@@ -29,4 +30,4 @@ deploy:
   on:
     tags: true
     repo: jaumard/trailpack-passport
-    node: stable
+    node: 5
