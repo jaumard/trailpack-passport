@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "eslint": "^2.9.0",
-    "eslint-config-trails": "^1.0.4",
+    "eslint-config-trails": "^1.0.5",
     "mocha": "^2.4.5",
     "passport-local": "^1.0.0",
     "smokesignals": "^1.0.17",
