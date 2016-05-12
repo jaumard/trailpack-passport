@@ -48,7 +48,7 @@
     "trailpack-express4": "^1.0.0-beta-2",
     "trailpack-router": "^1.0.0-beta-4",
     "trailpack-waterline": "^1.0.0-alpha-6",
-    "trails": "^1.0.0-beta-8",
+    "trails": "^1.0.0",
     "waterline-sqlite3": "^1.0.1"
   },
   "bundledDependencies": [
