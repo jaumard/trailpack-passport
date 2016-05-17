@@ -9,8 +9,8 @@ module.exports = class PassportTrailpack extends Trailpack {
    * Check express4 is used and verify session configuration
    */
   validate() {
-    if (!_.includes(_.keys(this.app.packs), 'express4')) {
-      return Promise.reject(new Error('This Trailpack work only for express4 !'))
+    if (!_.includes(_.keys(this.app.packs), 'express4') && !_.includes(_.keys(this.app.packs), 'express')) {
+      return Promise.reject(new Error('This Trailpack work only for express !'))
     }
 
     if (this.app.config.session.strategies && this.app.config.session.strategies.jwt &&

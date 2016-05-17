@@ -10,7 +10,7 @@ const App = {
     database: {
       stores: {
         sqlitedev: {
-          adapter: require('waterline-sqlite3')
+          adapter: require('sails-disk')
         }
       },
       models: {
@@ -34,12 +34,13 @@ const App = {
         require('trailpack-core'),
         require('trailpack-waterline'),
         require('trailpack-router'),
-        require('trailpack-express4'),
+        require('trailpack-express'),
         require('../') // trailpack-passport
       ]
     },
     routes: [],
     web: {
+      express: require('express'),
       middlewares: {
         order: [
           'addMethods',

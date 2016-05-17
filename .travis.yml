@@ -3,7 +3,8 @@ language: node_js
 node_js:
 - 4
 - 5
-- stable
+- 6
+
 addons:
   # Required to compile native modules on newer Node.js versions
   apt:
@@ -30,4 +31,4 @@ deploy:
   on:
     tags: true
     repo: jaumard/trailpack-passport
-    node: 5
+    node: 6
