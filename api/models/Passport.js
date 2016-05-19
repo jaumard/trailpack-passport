@@ -30,7 +30,8 @@ module.exports = class Passport extends Model {
 
   static config(app) {
     let config = {}
-    if (app.config.database.orm == 'waterline') {
+
+    if (app && app.config.database.orm == 'waterline') {
       config = {
         /**
          * Callback to be run before creating a Passport.
@@ -53,7 +54,7 @@ module.exports = class Passport extends Model {
         }
       }
     }
-    else if (app.config.database.orm == 'sequelize') {
+    else if (app && app.config.database.orm == 'sequelize') {
       config = {
         //More informations about supported models options here : http://docs.sequelizejs.com/en/latest/docs/models-definition/#configuration
         options: {
