@@ -8,7 +8,7 @@ const Model = require('trails-model')
  */
 module.exports = class User extends Model {
 
-  static config() {
+  static config(app) {
     let config = {}
 
     if (app.config.database.orm == 'sequelize') {

@@ -141,7 +141,7 @@ module.exports = class Passport extends Model {
       }
     }
     else if (app.config.database.orm == 'sequelize') {
-      config = {
+      schema = {
         protocol: {
           type: Sequelize.STRING,
           validate: {
