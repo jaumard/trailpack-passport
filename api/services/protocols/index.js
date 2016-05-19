@@ -17,4 +17,4 @@ module.exports = {
   oauth2: require('./oauth2'),
   openid: require('./openid'),
   jwt: require('./jwt')
-};
+}
