@@ -59,18 +59,18 @@ module.exports = class Passport extends Model {
         //More informations about supported models options here : http://docs.sequelizejs.com/en/latest/docs/models-definition/#configuration
         options: {
           hooks: {
-            beforeCreate: (values, options) => {
-              hashPassword(values, () => {})
+            beforeCreate: (values, options, cb) => {
+              hashPassword(values, cb)
             },
-            beforeUpdate: (values, options) => {
-              hashPassword(values, () => {})
+            beforeUpdate: (values, options, cb) => {
+              hashPassword(values, cb)
             }
           },
           classMethods: {
             //If you need associations, put them here
             associate: (models) => {
               //More information about associations here : http://docs.sequelizejs.com/en/latest/docs/associations/
-              models.Passport.belongsTo(models.User);
+              models.Passport.belongsTo(models.User, { foreignKey: 'userId' })
             }
           }
         }
@@ -105,7 +105,7 @@ module.exports = class Passport extends Model {
           type: 'string',
           minLength: 8
         },
-        accessToken: {type: 'string'},
+        accessToken: { type: 'string' },
 
         // Provider fields: Provider, identifer and tokens
         //
@@ -118,9 +118,9 @@ module.exports = class Passport extends Model {
         // dards. When using OAuth 1.0, a `token` as well as a `tokenSecret` will
         // be issued by the provider. In the case of OAuth 2.0, an `accessToken`
         // and a `refreshToken` will be issued.
-        provider: {type: 'alphanumericdashed'},
-        identifier: {type: 'string'},
-        tokens: {type: 'json'},
+        provider: { type: 'alphanumericdashed' },
+        identifier: { type: 'string' },
+        tokens: { type: 'json' },
 
         // Associations
         //
@@ -149,11 +149,11 @@ module.exports = class Passport extends Model {
           allowNull: true,
           min: 8
         },
-        accessToken: {type: Sequelize.STRING, allowNull: true},
+        accessToken: { type: Sequelize.STRING, allowNull: true },
 
-        provider: {type: Sequelize.STRING, allowNull: true},
-        identifier: {type: Sequelize.STRING, allowNull: true},
-        tokens: {type: Sequelize.STRING, allowNull: true}
+        provider: { type: Sequelize.STRING, allowNull: true },
+        identifier: { type: Sequelize.STRING, allowNull: true },
+        tokens: { type: Sequelize.STRING, allowNull: true }
 
       }
     }
