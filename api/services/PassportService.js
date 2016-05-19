@@ -24,8 +24,8 @@ module.exports = class PassportService extends Service {
    */
   createToken(user) {
     return jwt.sign({
-        user: user.toJSON()
-      },
+      user: user.toJSON()
+    },
       this.app.config.session.strategies.jwt.tokenOptions.secret,
       {
         algorithm: this.app.config.session.strategies.jwt.tokenOptions.algorithm,
@@ -113,7 +113,7 @@ module.exports = class PassportService extends Service {
     delete userInfos.password
 
     // Generating accessToken for API authentication
-    const token = crypto.randomBytes(48).toString('base64');
+    const token = crypto.randomBytes(48).toString('base64')
 
     return this.app.services.FootprintService.create('user', userInfos).then(user => {
       return this.app.services.FootprintService.create('Passport', {
@@ -185,28 +185,28 @@ module.exports = class PassportService extends Service {
     const criteria = {}
     criteria[_.get(this.app, 'config.session.strategies.local.options.usernameField') || 'username'] = identifier
 
-    return this.app.services.FootprintService.find('User', criteria, {populate: 'passports', findOne:true})
+    return this.app.services.FootprintService.find('User', criteria, {populate: 'passports', findOne: true})
       .then(user => {
-      if (!user) {
-        throw new Error('E_USER_NOT_FOUND')
-      }
+        if (!user) {
+          throw new Error('E_USER_NOT_FOUND')
+        }
 
-      const passport = user.passports.find(passportObj => passportObj.protocol === 'local')
-      if (!passport) {
-        throw new Error('E_USER_NO_PASSWORD')
-      }
+        const passport = user.passports.find(passportObj => passportObj.protocol === 'local')
+        if (!passport) {
+          throw new Error('E_USER_NO_PASSWORD')
+        }
 
-      return new Promise((resolve, reject) => {
-        bcrypt.compare(password, passport.password, (err, valid) => {
-          if (err) {
-            return reject(err)
-          }
+        return new Promise((resolve, reject) => {
+          bcrypt.compare(password, passport.password, (err, valid) => {
+            if (err) {
+              return reject(err)
+            }
 
-          return valid
+            return valid
             ? resolve(user)
             : reject(new Error('E_WRONG_PASSWORD'))
+          })
         })
       })
-    })
   }
 }

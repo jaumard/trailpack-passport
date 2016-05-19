@@ -63,7 +63,7 @@ module.exports = class Passport extends Model {
             },
             beforeUpdate: (values, options) => {
               hashPassword(values, () => {})
-            },
+            }
           },
           classMethods: {
             //If you need associations, put them here
@@ -84,7 +84,7 @@ module.exports = class Passport extends Model {
     return config
   }
 
-  static schema(app) {
+  static schema(app, Sequelize) {
     let schema = {}
     if (app.config.database.orm == 'waterline') {
       schema = {
