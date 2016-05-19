@@ -10,7 +10,7 @@ describe('PassportService', () => {
     request = supertest('http://localhost:3000')
     request
       .post('/auth/local/register')
-      .set('Accept', 'application/json;') //set header for this test
+      .set('Accept', 'application/json') //set header for this test
       .send({username: 'jaumard', password: 'adminadmin'})
       .expect(200)
       .end((err, res) => {
@@ -38,7 +38,7 @@ describe('PassportService', () => {
   })
 
 
-  it.skip('should log a user on /auth/local', (done) => {
+  it('should log a user on /auth/local', (done) => {
     request
       .post('/auth/local')
       .set('Accept', 'application/json;') //set header for this test

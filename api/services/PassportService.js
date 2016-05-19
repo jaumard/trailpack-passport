@@ -115,8 +115,8 @@ module.exports = class PassportService extends Service {
     // Generating accessToken for API authentication
     const token = crypto.randomBytes(48).toString('base64');
 
-    return this.app.orm.User.create(userInfos).then(user => {
-      return this.app.orm.Passport.create({
+    return this.app.services.FootprintService.create('user', userInfos).then(user => {
+      return this.app.services.FootprintService.create('Passport', {
         protocol: 'local',
         password: password,
         user: user.id,
@@ -185,7 +185,7 @@ module.exports = class PassportService extends Service {
     const criteria = {}
     criteria[_.get(this.app, 'config.session.strategies.local.options.usernameField') || 'username'] = identifier
 
-    return this.app.orm.User.findOne(criteria).populate('passports')
+    return this.app.services.FootprintService.find('User', criteria, {populate: 'passports', findOne:true})
       .then(user => {
       if (!user) {
         throw new Error('E_USER_NOT_FOUND')

@@ -1,5 +1,6 @@
 const _ = require('lodash')
 const smokesignals = require('smokesignals')
+const fs = require('fs')
 
 const App = {
   pkg: {
@@ -59,6 +60,9 @@ const App = {
     }
   }
 }
+const dbPath = __dirname+'/../.tmp/sqlitedev.db'
+if(fs.existsSync(dbPath))
+  fs.unlinkSync(dbPath)
 
 _.defaultsDeep(App, smokesignals.FailsafeConfig)
 module.exports = App
