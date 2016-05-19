@@ -151,13 +151,14 @@ module.exports = class Passport extends Model {
         },
         password: {
           type: Sequelize.STRING,
+          allowNull: true,
           min: 8
         },
-        accessToken: {type: Sequelize.STRING},
+        accessToken: {type: Sequelize.STRING, allowNull: true},
 
-        provider: {type: Sequelize.STRING},
-        identifier: {type: Sequelize.STRING},
-        tokens: {type: Sequelize.JSON}
+        provider: {type: Sequelize.STRING, allowNull: true},
+        identifier: {type: Sequelize.STRING, allowNull: true},
+        tokens: {type: Sequelize.STRING, allowNull: true}
 
       }
     }

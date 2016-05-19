@@ -53,7 +53,18 @@ module.exports = class User extends Model {
       }
     }
     else if (app.config.database.orm == 'sequelize') {
-      schema = {}
+      schema = {
+        username: {
+          type: Sequelize.STRING,
+          unique: true
+        },
+        email: {
+          type: Sequelize.STRING,
+          validate: {
+            isEmail: true
+          }
+        }
+      }
     }
     return schema
   }
