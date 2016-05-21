@@ -1,13 +1,16 @@
 'use strict'
 
+/*
+//Basic configuration for JWT
 const JwtStrategy = require('passport-jwt').Strategy
 const ExtractJwt = require('passport-jwt').ExtractJwt
 
 const EXPIRES_IN_SECONDS = 60 * 60 * 24
-const SECRET = process.env.TOKEN_SECRET || 'mysupersecuretoken'
 const ALGORITHM = 'HS256'
 const ISSUER = 'localhost'
 const AUDIENCE = 'localhost'
+*/
+const SECRET = process.env.TOKEN_SECRET || 'mysupersecuretoken'
 
 module.exports = {
   /**
@@ -25,6 +28,8 @@ module.exports = {
    * Auth strategies allowed
    */
   strategies: {
+    /*
+    //Enable JWT strategy
     jwt: {
       strategy: JwtStrategy,
       tokenOptions: {
@@ -41,54 +46,58 @@ module.exports = {
         jwtFromRequest: ExtractJwt.fromAuthHeader() //Authorization: JWT JSON_WEB_TOKEN_STRING
       }
     },
-
+    //Enable local strategy
     local: {
       strategy: require('passport-local').Strategy,
       options: {
         usernameField: 'username'
       }
+    },
+
+     //Enable twitter strategy
+     twitter: {
+      name: 'Twitter',
+      protocol: 'oauth',
+      strategy: require('passport-twitter').Strategy,
+      options: {
+        consumerKey: 'your-consumer-key',
+        consumerSecret: 'your-consumer-secret'
+      }
+    },
+
+     //Enable facebook strategy
+     facebook: {
+      name: 'Facebook',
+      protocol: 'oauth2',
+      strategy: require('passport-facebook').Strategy,
+      options: {
+        clientID: 'your-client-id',
+        clientSecret: 'your-client-secret',
+        scope: ['email'] // email is necessary for login behavior
+      }
+    },
+
+     //Enable google strategy
+     google: {
+      name: 'Google',
+      protocol: 'oauth2',
+      strategy: require('passport-google-oauth').OAuth2Strategy,
+      options: {
+        clientID: 'your-client-id',
+        clientSecret: 'your-client-secret'
+      }
     }
 
-    /*
-     twitter : {
-     name     : 'Twitter',
-     protocol : 'oauth',
-     strategy : require('passport-twitter').Strategy,
-     options  : {
-     consumerKey    : 'your-consumer-key',
-     consumerSecret : 'your-consumer-secret'
-     }
-     },
-
-     facebook : {
-     name     : 'Facebook',
-     protocol : 'oauth2',
-     strategy : require('passport-facebook').Strategy,
-     options  : {
-     clientID     : 'your-client-id',
-     clientSecret : 'your-client-secret',
-     scope        : ['email'] // email is necessary for login behavior
-     }
-     },
-
-     google : {
-     name     : 'Google',
-     protocol : 'oauth2',
-     strategy : require('passport-google-oauth').OAuth2Strategy,
-     options  : {
-     clientID     : 'your-client-id',
-     clientSecret : 'your-client-secret'
-     }
-     }
-
+     //Enable github strategy
      github: {
-     strategy: require('passport-github').Strategy,
-     name: 'Github',
-     protocol: 'oauth2',
-     options: {
-     clientID     : 'your-client-id',
-     clientSecret : 'your-client-secret'
-     }
-     }*/
+      strategy: require('passport-github').Strategy,
+      name: 'Github',
+      protocol: 'oauth2',
+      options: {
+        clientID: 'your-client-id',
+        clientSecret: 'your-client-secret'
+      }
+    }
+    */
   }
 }
