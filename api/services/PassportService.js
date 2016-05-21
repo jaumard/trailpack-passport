@@ -112,6 +112,12 @@ module.exports = class PassportService extends Service {
     const password = userInfos.password
     delete userInfos.password
 
+    if(!password) {
+      const err = new Error('E_VALIDATION')
+      err.statusCode = 400
+      return Promise.reject(err)
+    }
+
     // Generating accessToken for API authentication
     const token = crypto.randomBytes(48).toString('base64')
 

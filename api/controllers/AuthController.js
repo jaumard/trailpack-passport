@@ -13,6 +13,7 @@ module.exports = class AuthController extends Controller {
     this.app.services.PassportService.callback(req, res, (err, user, challenges, statuses) => {
       if (err) {
         if (err.message === 'E_USER_NOT_FOUND') {
+          req.err = err
           res.notFound(req, res)
         }
         else if (err === 'Not a valid BCrypt hash.' ||

@@ -50,7 +50,7 @@ module.exports = class PassportPolicy extends Policy {
         // User is not allowed
         // (default res.forbidden() behavior can be overridden in `config/403.js`)
         if (req.wantsJSON) {
-          res.status(403).json()
+          res.status(401).json()
         }
         else {
           res.redirect(this.app.config.session.redirect.logout)

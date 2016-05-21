@@ -19,7 +19,7 @@ const packs = [
 ]
 
 const ORM = process.env.ORM || 'waterline'
-console.log(ORM)
+
 const stores = {
   sqlitedev: {
     adapter: require('sails-disk')
