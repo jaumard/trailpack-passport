@@ -56,7 +56,9 @@
     "trails": "^1.0.0"
   },
   "scripts": {
-    "test": "eslint . && mocha && export ORM=sequelize;mocha"
+    "test": "eslint . && npm run testWaterline && npm run testSequelize",
+    "testWaterline": "mocha",
+    "testSequelize": "export ORM=sequelize;mocha"
   },
   "engines": {
     "node": ">= 4.0.0"

@@ -38,11 +38,11 @@ describe('PassportService', () => {
       })
   })
 
-  it.skip('should insert a user on /auth/local/register with form submit', (done) => {
+  it('should insert a user on /auth/local/register with form submit', (done) => {
     request
       .post('/auth/local/register')
-      .field('username', 'jim2')
-      .field('password', 'adminadmin2')
+      .set('Content-Type', 'application/x-www-form-urlencoded')
+      .send('username=jim2&password=adminadmin2')
       .set('Accept', 'application/json') //set header for this test
       .expect(200)
       .end((err, res) => {
@@ -69,11 +69,11 @@ describe('PassportService', () => {
       })
   })
 
-  it.skip('should log a user on /auth/local with form submit', (done) => {
+  it('should log a user on /auth/local with form submit', (done) => {
     request
       .post('/auth/local')
-      .field('username', 'jim2')
-      .field('password', 'adminadmin2')
+      .set('Content-Type', 'application/x-www-form-urlencoded')
+      .send('username=jim2&password=adminadmin2')
       .set('Accept', 'application/json;') //set header for this test
       .expect(200)
       .end((err, res) => {
