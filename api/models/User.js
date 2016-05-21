@@ -21,10 +21,7 @@ module.exports = class User extends Model {
               //More information about associations here : http://docs.sequelizejs.com/en/latest/docs/associations/
               models.User.hasMany(models.Passport, {
                 as: 'passports',
-                onDelete: 'CASCADE',
-                foreignKey: {
-                  allowNull: false
-                }
+                onDelete: 'CASCADE'
               })
             }
           }

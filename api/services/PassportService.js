@@ -112,16 +112,19 @@ module.exports = class PassportService extends Service {
     const password = userInfos.password
     delete userInfos.password
 
-    // Generating accessToken for API authentication
-    const token = crypto.randomBytes(48).toString('base64')
-
     return this.app.services.FootprintService.create('user', userInfos).then(user => {
-      return this.app.services.FootprintService.create('Passport', {
+      const record = {
         protocol: 'local',
         password: password,
-        user: user.id,
-        accessToken: token
-      }).then(passport => Promise.resolve(user))
+        accessToken: crypto.randomBytes(48).toString('base64')
+      }
+      // Temporary workaround until trails supports multi-orm models
+      if (this.app.config.database.orm == 'sequelize')
+        record.userId = user.id
+      else
+        record.user = user.id
+
+      return this.app.services.FootprintService.create('Passport', record).then(passport => Promise.resolve(user))
     })
   }
 
@@ -142,11 +145,18 @@ module.exports = class PassportService extends Service {
       user: user.id
     }).then(passport => {
       if (!passport) {
-        return this.app.orm.Passport.create({
+        const record = {
           protocol: 'local',
-          password: password,
-          user: user.id
-        })
+          password: password
+        }
+        // Temporary workaround until trails supports multi-orm models
+        if (this.app.config.database.orm == 'sequelize')
+          record.userId = user.id
+        else
+          record.user = user.id
+
+
+        return this.app.orm.Passport.create(record)
       }
     })
   }
@@ -185,7 +195,7 @@ module.exports = class PassportService extends Service {
     const criteria = {}
     criteria[_.get(this.app, 'config.session.strategies.local.options.usernameField') || 'username'] = identifier
 
-    return this.app.services.FootprintService.find('User', criteria, {populate: 'passports', findOne: true})
+    return this.app.services.FootprintService.find('User', criteria, { populate: 'passports', findOne: true })
       .then(user => {
         if (!user) {
           throw new Error('E_USER_NOT_FOUND')
@@ -203,8 +213,8 @@ module.exports = class PassportService extends Service {
             }
 
             return valid
-            ? resolve(user)
-            : reject(new Error('E_WRONG_PASSWORD'))
+              ? resolve(user)
+              : reject(new Error('E_WRONG_PASSWORD'))
           })
         })
       })
