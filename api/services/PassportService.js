@@ -24,8 +24,8 @@ module.exports = class PassportService extends Service {
    */
   createToken(user) {
     return jwt.sign({
-        user: user.toJSON()
-      },
+      user: user.toJSON()
+    },
       this.app.config.session.strategies.jwt.tokenOptions.secret,
       {
         algorithm: this.app.config.session.strategies.jwt.tokenOptions.algorithm,
@@ -113,7 +113,7 @@ module.exports = class PassportService extends Service {
     delete userInfos.password
 
     // Generating accessToken for API authentication
-    const token = crypto.randomBytes(48).toString('base64');
+    const token = crypto.randomBytes(48).toString('base64')
     const onUserLogged = _.get(this.app, 'config.session.onUserLogged')
     return this.app.orm.User.create(userInfos).then(user => {
       return this.app.orm.Passport.create({
@@ -187,28 +187,28 @@ module.exports = class PassportService extends Service {
 
     return this.app.orm.User.findOne(criteria).populate('passports')
       .then(user => {
-      if (!user) {
-        throw new Error('E_USER_NOT_FOUND')
-      }
+        if (!user) {
+          throw new Error('E_USER_NOT_FOUND')
+        }
 
-      const passport = user.passports.find(passportObj => passportObj.protocol === 'local')
-      if (!passport) {
-        throw new Error('E_USER_NO_PASSWORD')
-      }
+        const passport = user.passports.find(passportObj => passportObj.protocol === 'local')
+        if (!passport) {
+          throw new Error('E_USER_NO_PASSWORD')
+        }
 
-      const onUserLogged = _.get(this.app, 'config.session.onUserLogged')
+        const onUserLogged = _.get(this.app, 'config.session.onUserLogged')
 
-      return new Promise((resolve, reject) => {
-        bcrypt.compare(password, passport.password, (err, valid) => {
-          if (err) {
-            return reject(err)
-          }
+        return new Promise((resolve, reject) => {
+          bcrypt.compare(password, passport.password, (err, valid) => {
+            if (err) {
+              return reject(err)
+            }
 
-          return valid
+            return valid
             ? resolve(onUserLogged(this.app, user))
             : reject(new Error('E_WRONG_PASSWORD'))
+          })
         })
       })
-    })
   }
 }
