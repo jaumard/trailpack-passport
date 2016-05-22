@@ -62,6 +62,10 @@ module.exports = {
     login: '/',//Login successful
     logout: '/'//Logout successful
   },
+  //Called when user is logged, before returning the json response
+  onUserLogged: (app, user) => {
+      return Promise.resolve(user)
+  },
   strategies: {
     jwt: {
       strategy: JwtStrategy,

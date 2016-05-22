@@ -19,6 +19,10 @@ const App = {
       }
     },
     session: {
+      onUserLogged: (app, user) => {
+        user.onUserLogged = true
+        return Promise.resolve(user)
+      },
       strategies: {
         local: {
           strategy: require('passport-local').Strategy,

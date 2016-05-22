@@ -14,6 +14,15 @@ module.exports = {
    * Secret use by express for his session
    */
   secret: SECRET,
+
+  /*
+   * Called when a user a logged
+   *
+  onUserLogged: (app, user) => {
+    return Promise.resolve(user)
+  },
+  */
+
   /**
    * Url redirection on login/logout
    */

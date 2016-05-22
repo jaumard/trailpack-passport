@@ -114,14 +114,14 @@ module.exports = class PassportService extends Service {
 
     // Generating accessToken for API authentication
     const token = crypto.randomBytes(48).toString('base64');
-
+    const onUserLogged = _.get(this.app, 'config.session.onUserLogged')
     return this.app.orm.User.create(userInfos).then(user => {
       return this.app.orm.Passport.create({
         protocol: 'local',
         password: password,
         user: user.id,
         accessToken: token
-      }).then(passport => Promise.resolve(user))
+      }).then(passport => onUserLogged(this.app, user))
     })
   }
 
@@ -196,6 +196,8 @@ module.exports = class PassportService extends Service {
         throw new Error('E_USER_NO_PASSWORD')
       }
 
+      const onUserLogged = _.get(this.app, 'config.session.onUserLogged')
+
       return new Promise((resolve, reject) => {
         bcrypt.compare(password, passport.password, (err, valid) => {
           if (err) {
@@ -203,7 +205,7 @@ module.exports = class PassportService extends Service {
           }
 
           return valid
-            ? resolve(user)
+            ? resolve(onUserLogged(this.app, user))
             : reject(new Error('E_WRONG_PASSWORD'))
         })
       })
