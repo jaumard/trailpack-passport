@@ -7,7 +7,7 @@ module.exports = (app) => {
     const id = _.get(app, 'config.session.strategies.local.options.usernameField')
     criteria[id || 'username'] = identifier
 
-    app.services.Passport.login(identifier, password)
+    app.services.PassportService.login(identifier, password)
       .then(user => next(null, user))
       .catch(next)
   }

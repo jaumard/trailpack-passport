@@ -112,7 +112,7 @@ module.exports = class PassportService extends Service {
     const password = userInfos.password
     delete userInfos.password
 
-    if(!password) {
+    if (!password) {
       const err = new Error('E_VALIDATION')
       err.statusCode = 400
       return Promise.reject(err)
@@ -143,12 +143,12 @@ module.exports = class PassportService extends Service {
    * @returns Promise to chain calls
    */
   connect(user, password) {
-    return this.app.orm.Passport.findOne({
+    return this.app.services.FootprintService.find('passport', {
       protocol: 'local',
       user: user.id
-    }).then(passport => {
+    }, {findOne: true}).then(passport => {
       if (!passport) {
-        return this.app.orm.Passport.create({
+        return this.app.services.FootprintService.create('passport', {
           protocol: 'local',
           password: password,
           user: user.id
@@ -170,9 +170,9 @@ module.exports = class PassportService extends Service {
     query.user = user.id
     query[provider === 'local' ? 'protocol' : 'provider'] = provider
 
-    this.app.orm.Passport.findOne(query).then(passport => {
+    return this.app.services.FootprintService.find('passport', query).then(passport => {
       if (passport) {
-        return this.app.orm.Passport.destroy(passport.id)
+        return this.app.services.FootprintService.destroy('passport', passport.id)
           .then(passport => next(null, user))
       }
       else {

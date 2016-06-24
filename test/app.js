@@ -18,7 +18,7 @@ const packs = [
   require('../') // trailpack-passport
 ]
 
-const ORM = process.env.ORM || 'waterline'
+const ORM = process.env.ORM || 'sequelize'
 
 const stores = {
   sqlitedev: {
