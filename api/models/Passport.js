@@ -59,24 +59,18 @@ module.exports = class Passport extends Model {
         //More informations about supported models options here : http://docs.sequelizejs.com/en/latest/docs/models-definition/#configuration
         options: {
           hooks: {
-            beforeCreate: (values, options) => {
-              hashPassword(values, () => {})
+            beforeCreate: (values, options, fn) => {
+              hashPassword(values, fn)
             },
-            beforeUpdate: (values, options) => {
-              hashPassword(values, () => {})
+            beforeUpdate: (values, options, fn) => {
+              hashPassword(values, fn)
             }
           },
           classMethods: {
             //If you need associations, put them here
             associate: (models) => {
               //More information about associations here : http://docs.sequelizejs.com/en/latest/docs/associations/
-              models.User.hasMany(models.Passport, {
-                as: 'passports',
-                onDelete: 'CASCADE',
-                foreignKey: {
-                  allowNull: false
-                }
-              })
+
             }
           }
         }
@@ -105,13 +99,10 @@ module.exports = class Passport extends Model {
         // When the local strategy is employed, a password will be used as the
         // means of authentication along with either a username or an email.
         //
-        // accessToken is used to authenticate API requests. it is generated when a
-        // passport (with protocol 'local') is created for a user.
         password: {
           type: 'string',
           minLength: 8
         },
-        accessToken: {type: 'string'},
 
         // Provider fields: Provider, identifer and tokens
         //
@@ -155,7 +146,6 @@ module.exports = class Passport extends Model {
           allowNull: true,
           min: 8
         },
-        accessToken: {type: Sequelize.STRING, allowNull: true},
 
         provider: {type: Sequelize.STRING, allowNull: true},
         identifier: {type: Sequelize.STRING, allowNull: true},

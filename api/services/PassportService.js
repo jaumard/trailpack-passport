@@ -118,15 +118,10 @@ module.exports = class PassportService extends Service {
       return Promise.reject(err)
     }
 
-    // Generating accessToken for API authentication
-    const token = crypto.randomBytes(48).toString('base64')
-
     return this.app.services.FootprintService.create('user', userInfos).then(user => {
-      return this.app.services.FootprintService.create('Passport', {
+      return this.app.services.FootprintService.createAssociation('user', user.id, 'passports', {
         protocol: 'local',
-        password: password,
-        user: user.id,
-        accessToken: token
+        password: password
       }).then(passport => Promise.resolve(user))
     })
   }

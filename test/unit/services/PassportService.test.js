@@ -38,7 +38,7 @@ describe('PassportService', () => {
       })
   })
 
-  it.skip('should return an error on missing passport for registration on /auth/local/register', (done) => {
+  it('should return an error on missing passport for registration on /auth/local/register', (done) => {
     request
       .post('/auth/local/register')
       .set('Accept', 'application/json') //set header for this test
