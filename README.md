@@ -8,7 +8,11 @@
 
 :package: Trailpack to allow passport authentification to Trails application
 
-WARNING : This Trailpack work only with [trailpack-express](https://github.com/trailsjs/trailpack-express)
+### WARNING : 
+
+This Trailpack work only with [trailpack-express](https://github.com/trailsjs/trailpack-express) as webserver 
+
+This Trailpack work only with [trailpack-sequelize](https://github.com/trailsjs/trailpack-sequelize) or [trailpack-waterline](https://github.com/trailsjs/trailpack-waterline) as ORM
 
 ## Intallation
 With yo : 

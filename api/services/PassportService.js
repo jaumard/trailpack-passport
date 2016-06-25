@@ -3,7 +3,6 @@
 const Service = require('trails-service')
 
 const bcrypt = require('bcrypt')
-const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
 const _ = require('lodash')
 
@@ -48,7 +47,7 @@ module.exports = class PassportService extends Service {
     // If a provider doesn't exist for this endpoint, send the user back to the
     // login page
     if (!strategies.hasOwnProperty(provider)) {
-      return Promise.reject('/login')
+      return Promise.reject(this.app.config.session.redirect.login)
     }
 
     // Attach scope if it has been set in the config
@@ -143,10 +142,9 @@ module.exports = class PassportService extends Service {
       user: user.id
     }, {findOne: true}).then(passport => {
       if (!passport) {
-        return this.app.services.FootprintService.create('passport', {
+        return this.app.services.FootprintService.createAssociation('user', user.id, 'passport', {
           protocol: 'local',
-          password: password,
-          user: user.id
+          password: password
         })
       }
     })
