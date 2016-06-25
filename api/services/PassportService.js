@@ -22,15 +22,16 @@ module.exports = class PassportService extends Service {
    * @param user infos to serialize
    */
   createToken(user) {
+    const config = this.app.config.passport.strategies.jwt
     return jwt.sign({
       user: user.toJSON()
     },
-      this.app.config.session.strategies.jwt.tokenOptions.secret,
+      config.tokenOptions.secret,
       {
-        algorithm: this.app.config.session.strategies.jwt.tokenOptions.algorithm,
-        expiresIn: this.app.config.session.strategies.jwt.tokenOptions.expiresInSeconds,
-        issuer: this.app.config.session.strategies.jwt.tokenOptions.issuer,
-        audience: this.app.config.session.strategies.jwt.tokenOptions.audience
+        algorithm: config.tokenOptions.algorithm,
+        expiresIn: config.tokenOptions.expiresInSeconds,
+        issuer: config.tokenOptions.issuer,
+        audience: config.tokenOptions.audience
       }
     )
   }
@@ -42,12 +43,12 @@ module.exports = class PassportService extends Service {
    * @param provider to go to
    */
   endpoint(req, res, provider) {
-    const strategies = this.app.config.session.strategies, options = {}
+    const strategies = this.app.config.passport.strategies, options = {}
 
     // If a provider doesn't exist for this endpoint, send the user back to the
     // login page
     if (!strategies.hasOwnProperty(provider)) {
-      return Promise.reject(this.app.config.session.redirect.login)
+      return Promise.reject(this.app.config.passport.redirect.login)
     }
 
     // Attach scope if it has been set in the config
@@ -86,7 +87,7 @@ module.exports = class PassportService extends Service {
         this.disconnect(req, next)
       }
       else {
-        const id = _.get(this.app, 'config.session.strategies.local.options.usernameField')
+        const id = _.get(this.app, 'config.passport.strategies.local.options.usernameField')
         this.login(req.body.identifier || req.body[id], req.body.password)
           .then(user => next(null, user))
           .catch(next)
@@ -182,7 +183,7 @@ module.exports = class PassportService extends Service {
    */
   login(identifier, password) {
     const criteria = {}
-    criteria[_.get(this.app, 'config.session.strategies.local.options.usernameField') || 'username'] = identifier
+    criteria[_.get(this.app, 'config.passport.strategies.local.options.usernameField') || 'username'] = identifier
 
     return this.app.services.FootprintService.find('User', criteria, {populate: 'passports', findOne: true})
       .then(user => {

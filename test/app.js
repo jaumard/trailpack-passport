@@ -52,7 +52,7 @@ const App = {
         migrate: 'drop'
       }
     },
-    session: {
+    passport: {
       strategies: {
         jwt: {
           strategy: JwtStrategy,

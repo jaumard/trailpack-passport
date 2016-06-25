@@ -53,7 +53,7 @@ module.exports = class PassportPolicy extends Policy {
           res.status(401).json()
         }
         else {
-          res.redirect(this.app.config.session.redirect.logout)
+          res.redirect(this.app.config.passport.redirect.logout)
         }
       }
     })

@@ -46,9 +46,9 @@ middlewares: {
         ]
       }
 ```
-And to configure sessions: 
+And to configure passport: 
 ```js
-// config/session.js
+// config/passport.js
 'use strict'
 
 const JwtStrategy = require('passport-jwt').Strategy
@@ -61,7 +61,6 @@ const ISSUER = 'localhost'
 const AUDIENCE = 'localhost'
 
 module.exports = {
-  secret: SECRET,//secret use by express for his sessions
   redirect: {
     login: '/',//Login successful
     logout: '/'//Logout successful
@@ -135,6 +134,8 @@ module.exports = {
   }
 }
 ```
+
+### WARNING : be sure you configure sessions correctly if your strategies need them
 
 ## Usage
 
