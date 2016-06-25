@@ -13,7 +13,10 @@ const AUDIENCE = 'localhost'
 const SECRET = process.env.TOKEN_SECRET || 'mysupersecuretoken'
 
 module.exports = {
-
+  /**
+   * Prefix for Auth routes
+   */
+  //prefix: '/',
   /**
    * Url redirection on login/logout
    */

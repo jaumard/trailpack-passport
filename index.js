@@ -37,6 +37,7 @@ module.exports = class PassportTrailpack extends Trailpack {
   configure() {
     lib.Passports.init(this.app)
     lib.Passports.loadStrategies(this.app)
+    lib.Passports.addRoutes(this.app)
   }
 
   constructor(app) {

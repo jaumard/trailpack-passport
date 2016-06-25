@@ -151,6 +151,9 @@ Now you can apply some policies to control sessions under `config/policies.js`
     }
 ```
 
+### Routes prefix
+By default auth routes doesn't have prefix, but if you use `trailpack-footprints` it automatically use footprints prefix to match your API. You can change this prefix by setting `config.passport.prefix`.
+
 ### Log/Register users with third party providers
 You can register or log users with third party strategies by redirect the user to : 
 ```

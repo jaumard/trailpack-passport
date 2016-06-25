@@ -26,10 +26,10 @@ const stores = {
   }
 }
 
-if (ORM == 'waterline') {
+if (ORM === 'waterline') {
   packs.push(require('trailpack-waterline'))
 }
-else if (ORM == 'sequelize') {
+else if (ORM === 'sequelize') {
   packs.push(require('trailpack-sequelize'))
   stores.sqlitedev = {
     database: 'dev',

@@ -11,7 +11,7 @@ module.exports = class User extends Model {
   static config(app) {
     let config = {}
 
-    if (app && app.config.database.orm == 'sequelize') {
+    if (app && app.config.database.orm === 'sequelize') {
       config = {
         //More informations about supported models options here : http://docs.sequelizejs.com/en/latest/docs/models-definition/#configuration
         options: {
@@ -36,7 +36,7 @@ module.exports = class User extends Model {
 
   static schema(app, Sequelize) {
     let schema = {}
-    if (app.config.database.orm == 'waterline') {
+    if (app.config.database.orm === 'waterline') {
       schema = {
         username: {
           type: 'string',
@@ -52,7 +52,7 @@ module.exports = class User extends Model {
         }
       }
     }
-    else if (app.config.database.orm == 'sequelize') {
+    else if (app.config.database.orm === 'sequelize') {
       schema = {
         username: {
           type: Sequelize.STRING,
