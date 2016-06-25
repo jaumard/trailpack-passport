@@ -196,6 +196,8 @@ module.exports = class PassportService extends Service {
           throw new Error('E_USER_NO_PASSWORD')
         }
 
+        const onUserLogged = _.get(this.app, 'config.session.onUserLogged')
+
         return new Promise((resolve, reject) => {
           bcrypt.compare(password, passport.password, (err, valid) => {
             if (err) {
@@ -203,7 +205,7 @@ module.exports = class PassportService extends Service {
             }
 
             return valid
-            ? resolve(user)
+            ? resolve(onUserLogged(this.app, user))
             : reject(new Error('E_WRONG_PASSWORD'))
           })
         })

@@ -1,3 +1,4 @@
+'use strict'
 const _ = require('lodash')
 const smokesignals = require('smokesignals')
 const fs = require('fs')
@@ -44,6 +45,15 @@ const App = {
     name: 'passport-trailpack-test',
     version: '1.0.0'
   },
+  api: {
+    controllers: {
+      DefaultController: class DefaultController extends require('trails-controller') {
+        info(req, res){
+          res.send('ok')
+        }
+      }
+    }
+  },
   config: {
     database: {
       stores: stores,
@@ -53,6 +63,10 @@ const App = {
       }
     },
     passport: {
+      onUserLogged: (app, user) => {
+        user.onUserLogged = true
+        return Promise.resolve(user)
+      },
       strategies: {
         jwt: {
           strategy: JwtStrategy,
@@ -99,7 +113,14 @@ const App = {
     main: {
       packs: packs
     },
-    routes: [],
+    routes: [{
+      path: '/',
+      method: ['GET'],
+      handler: 'DefaultController.info'
+    }],
+    policies: {
+      DefaultController: ['Passport.jwt']
+    },
     web: {
       express: require('express'),
       middlewares: {

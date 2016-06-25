@@ -27,6 +27,23 @@ With npm (you will have to create config file manually) :
 `npm install --save trailpack-passport`
 
 ## Configuration
+
+First you need to add this trailpack to your __main__ configuration : 
+```js
+// config/main.js
+
+module.exports = {
+   ...
+
+   packs: [
+      ...
+      require('trailpack-passport'),
+      ...
+   ]
+   ...
+}
+```
+
 You need to add `passportInit` and optionally `passportSession` : 
 ```js
 // config/web.js
@@ -65,6 +82,10 @@ module.exports = {
     login: '/',//Login successful
     logout: '/'//Logout successful
   },
+  //Called when user is logged, before returning the json response
+  onUserLogged: (app, user) => {
+      return Promise.resolve(user)
+  },
   strategies: {
     jwt: {
       strategy: JwtStrategy,
@@ -79,7 +100,7 @@ module.exports = {
         secretOrKey: SECRET,
         issuer: ISSUER,
         audience: AUDIENCE,
-        jwtFromRequest: ExtractJwt.fromUrlQueryParameter('token')
+        jwtFromRequest: ExtractJwt.fromAuthHeader()
       }
     },
 
@@ -176,6 +197,10 @@ http://localhost:3000/auth/github/disconnect
 
 ### Logout
 Just make a GET to `auth/logout`
+
+## Full example
+If you have some trouble, you can view a full example with JWT and local strategies here : https://github.com/jaumard/trails-example-express
+Clone the repo and play a little with it to see how it works :)
 
 ## License
 [MIT](https://github.com/jaumard/trailpack-passport/blob/master/LICENSE)
