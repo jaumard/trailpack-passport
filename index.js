@@ -9,17 +9,25 @@ module.exports = class PassportTrailpack extends Trailpack {
    * Check express4 is used and verify session configuration
    */
   validate() {
-    if (!_.includes(_.keys(this.app.packs), 'express4') && !_.includes(_.keys(this.app.packs), 'express')) {
+    if (!_.includes(_.keys(this.app.packs), 'express')) {
       return Promise.reject(new Error('This Trailpack work only for express !'))
     }
 
-    if (this.app.config.session.strategies && this.app.config.session.strategies.jwt &&
-      _.get(this.app, 'config.session.jwt.tokenOptions.secret') === 'mysupersecuretoken') {
+    if (!this.app.config.passport) {
+      return Promise.reject(new Error('No configuration found at config.passport !'))
+    }
+
+    const strategies = this.app.config.passport.strategies
+    if (!strategies || (strategies && Object.keys(strategies).length == 0)) {
+      return Promise.reject(new Error('No strategies found at config.passport.strategies !'))
+    }
+
+    if (strategies.jwt && _.get(this.app, 'config.passport.jwt.tokenOptions.secret') === 'mysupersecuretoken') {
       return Promise.reject(new Error('You need to change the default token !'))
     }
 
     return Promise.all([
-      lib.Validator.validatePassportsConfig(this.app.config.session)
+      lib.Validator.validatePassportsConfig(this.app.config.passport)
     ])
   }
 
@@ -29,6 +37,7 @@ module.exports = class PassportTrailpack extends Trailpack {
   configure() {
     lib.Passports.init(this.app)
     lib.Passports.loadStrategies(this.app)
+    lib.Passports.addRoutes(this.app)
   }
 
   constructor(app) {

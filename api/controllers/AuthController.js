@@ -13,7 +13,11 @@ module.exports = class AuthController extends Controller {
     this.app.services.PassportService.callback(req, res, (err, user, challenges, statuses) => {
       if (err) {
         if (err.message === 'E_USER_NOT_FOUND') {
+          req.err = err
           res.notFound(req, res)
+        }
+        else if (err.code === 'E_VALIDATION') {
+          res.status(400).json({error: err.message || err})
         }
         else if (err === 'Not a valid BCrypt hash.' ||
           err.message === 'E_WRONG_PASSWORD' ||
@@ -39,17 +43,17 @@ module.exports = class AuthController extends Controller {
             // will be available.
             if (req.wantsJSON) {
               const result = {
-                redirect: this.app.config.session.redirect.login,
+                redirect: this.app.config.passport.redirect.login,
                 user: user
               }
 
-              if (this.app.config.session.strategies.jwt) {
+              if (this.app.config.passport.strategies.jwt) {
                 result.token = this.app.services.PassportService.createToken(user)
               }
               res.json(result)
             }
             else {
-              res.redirect(this.app.config.session.redirect.login)
+              res.redirect(this.app.config.passport.redirect.login)
             }
           }
         })
@@ -79,10 +83,10 @@ module.exports = class AuthController extends Controller {
       req.session.authenticated = false
 
     if (req.wantsJSON) {
-      res.json({redirect: this.app.config.session.redirect.logout})
+      res.json({redirect: this.app.config.passport.redirect.logout})
     }
     else {
-      res.redirect(this.app.config.session.redirect.logout)
+      res.redirect(this.app.config.passport.redirect.logout)
     }
   }
 }

@@ -1,15 +1,44 @@
 'use strict'
 const _ = require('lodash')
-const fs = require('fs')
 const smokesignals = require('smokesignals')
+const fs = require('fs')
 const JwtStrategy = require('passport-jwt').Strategy
 const ExtractJwt = require('passport-jwt').ExtractJwt
 
-const EXPIRES_IN_SECONDS = 60 * 60 * 24
-const SECRET = 'test'
+const EXPIRES_IN_SECONDS = 60 * 24
 const ALGORITHM = 'HS256'
 const ISSUER = 'localhost'
 const AUDIENCE = 'localhost'
+const SECRET = 'mysupersecuretokentest'
+
+const packs = [
+  smokesignals.Trailpack,
+  require('trailpack-core'),
+  require('trailpack-router'),
+  require('trailpack-express'),
+  require('../') // trailpack-passport
+]
+
+const ORM = process.env.ORM || 'sequelize'
+
+const stores = {
+  sqlitedev: {
+    adapter: require('sails-disk')
+  }
+}
+
+if (ORM === 'waterline') {
+  packs.push(require('trailpack-waterline'))
+}
+else if (ORM === 'sequelize') {
+  packs.push(require('trailpack-sequelize'))
+  stores.sqlitedev = {
+    database: 'dev',
+    storage: './.tmp/dev.sqlite',
+    host: '127.0.0.1',
+    dialect: 'sqlite'
+  }
+}
 
 const App = {
   pkg: {
@@ -27,17 +56,13 @@ const App = {
   },
   config: {
     database: {
-      stores: {
-        sqlitedev: {
-          adapter: require('sails-disk')
-        }
-      },
+      stores: stores,
       models: {
         defaultStore: 'sqlitedev',
         migrate: 'drop'
       }
     },
-    session: {
+    passport: {
       onUserLogged: (app, user) => {
         user.onUserLogged = true
         return Promise.resolve(user)
@@ -64,18 +89,29 @@ const App = {
           options: {
             usernameField: 'username'
           }
-        }
+        }/*,
+         twitter: {
+         name: 'Twitter',
+         protocol: 'oauth',
+         strategy: require('passport-twitter').Strategy,
+         options: {
+         consumerKey: 'your-consumer-key',
+         consumerSecret: 'your-consumer-secret'
+         }
+         },
+         github: {
+         strategy: require('passport-github').Strategy,
+         name: 'Github',
+         protocol: 'oauth2',
+         options: {
+         clientID: 'your-client-id',
+         clientSecret: 'your-client-secret'
+         }
+         }*/
       }
     },
     main: {
-      packs: [
-        smokesignals.Trailpack,
-        require('trailpack-core'),
-        require('trailpack-waterline'),
-        require('trailpack-router'),
-        require('trailpack-express'),
-        require('../') // trailpack-passport
-      ]
+      packs: packs
     },
     routes: [{
       path: '/',
@@ -92,9 +128,9 @@ const App = {
           'addMethods',
           'cookieParser',
           'session',
+          'bodyParser',
           'passportInit',
           'passportSession',
-          'bodyParser',
           'methodOverride',
           'router',
           'www',

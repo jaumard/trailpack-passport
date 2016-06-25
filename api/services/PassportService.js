@@ -3,7 +3,6 @@
 const Service = require('trails-service')
 
 const bcrypt = require('bcrypt')
-const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
 const _ = require('lodash')
 
@@ -23,15 +22,16 @@ module.exports = class PassportService extends Service {
    * @param user infos to serialize
    */
   createToken(user) {
+    const config = this.app.config.passport.strategies.jwt
     return jwt.sign({
       user: user.toJSON()
     },
-      this.app.config.session.strategies.jwt.tokenOptions.secret,
+      config.tokenOptions.secret,
       {
-        algorithm: this.app.config.session.strategies.jwt.tokenOptions.algorithm,
-        expiresIn: this.app.config.session.strategies.jwt.tokenOptions.expiresInSeconds,
-        issuer: this.app.config.session.strategies.jwt.tokenOptions.issuer,
-        audience: this.app.config.session.strategies.jwt.tokenOptions.audience
+        algorithm: config.tokenOptions.algorithm,
+        expiresIn: config.tokenOptions.expiresInSeconds,
+        issuer: config.tokenOptions.issuer,
+        audience: config.tokenOptions.audience
       }
     )
   }
@@ -43,12 +43,12 @@ module.exports = class PassportService extends Service {
    * @param provider to go to
    */
   endpoint(req, res, provider) {
-    const strategies = this.app.config.session.strategies, options = {}
+    const strategies = this.app.config.passport.strategies, options = {}
 
     // If a provider doesn't exist for this endpoint, send the user back to the
     // login page
     if (!strategies.hasOwnProperty(provider)) {
-      return Promise.reject('/login')
+      return Promise.reject(this.app.config.passport.redirect.login)
     }
 
     // Attach scope if it has been set in the config
@@ -87,7 +87,7 @@ module.exports = class PassportService extends Service {
         this.disconnect(req, next)
       }
       else {
-        const id = _.get(this.app, 'config.session.strategies.local.options.usernameField')
+        const id = _.get(this.app, 'config.passport.strategies.local.options.usernameField')
         this.login(req.body.identifier || req.body[id], req.body.password)
           .then(user => next(null, user))
           .catch(next)
@@ -112,16 +112,17 @@ module.exports = class PassportService extends Service {
     const password = userInfos.password
     delete userInfos.password
 
-    // Generating accessToken for API authentication
-    const token = crypto.randomBytes(48).toString('base64')
-    const onUserLogged = _.get(this.app, 'config.session.onUserLogged')
-    return this.app.orm.User.create(userInfos).then(user => {
-      return this.app.orm.Passport.create({
+    if (!password) {
+      const err = new Error('E_VALIDATION')
+      err.statusCode = 400
+      return Promise.reject(err)
+    }
+
+    return this.app.services.FootprintService.create('user', userInfos).then(user => {
+      return this.app.services.FootprintService.createAssociation('user', user.id, 'passports', {
         protocol: 'local',
-        password: password,
-        user: user.id,
-        accessToken: token
-      }).then(passport => onUserLogged(this.app, user))
+        password: password
+      }).then(passport => Promise.resolve(user))
     })
   }
 
@@ -137,15 +138,14 @@ module.exports = class PassportService extends Service {
    * @returns Promise to chain calls
    */
   connect(user, password) {
-    return this.app.orm.Passport.findOne({
+    return this.app.services.FootprintService.find('passport', {
       protocol: 'local',
       user: user.id
-    }).then(passport => {
+    }, {findOne: true}).then(passport => {
       if (!passport) {
-        return this.app.orm.Passport.create({
+        return this.app.services.FootprintService.createAssociation('user', user.id, 'passport', {
           protocol: 'local',
-          password: password,
-          user: user.id
+          password: password
         })
       }
     })
@@ -164,9 +164,9 @@ module.exports = class PassportService extends Service {
     query.user = user.id
     query[provider === 'local' ? 'protocol' : 'provider'] = provider
 
-    this.app.orm.Passport.findOne(query).then(passport => {
+    return this.app.services.FootprintService.find('passport', query).then(passport => {
       if (passport) {
-        return this.app.orm.Passport.destroy(passport.id)
+        return this.app.services.FootprintService.destroy('passport', passport.id)
           .then(passport => next(null, user))
       }
       else {
@@ -183,9 +183,9 @@ module.exports = class PassportService extends Service {
    */
   login(identifier, password) {
     const criteria = {}
-    criteria[_.get(this.app, 'config.session.strategies.local.options.usernameField') || 'username'] = identifier
+    criteria[_.get(this.app, 'config.passport.strategies.local.options.usernameField') || 'username'] = identifier
 
-    return this.app.orm.User.findOne(criteria).populate('passports')
+    return this.app.services.FootprintService.find('User', criteria, {populate: 'passports', findOne: true})
       .then(user => {
         if (!user) {
           throw new Error('E_USER_NOT_FOUND')
@@ -196,7 +196,7 @@ module.exports = class PassportService extends Service {
           throw new Error('E_USER_NO_PASSWORD')
         }
 
-        const onUserLogged = _.get(this.app, 'config.session.onUserLogged')
+        const onUserLogged = _.get(this.app, 'config.passport.onUserLogged')
 
         return new Promise((resolve, reject) => {
           bcrypt.compare(password, passport.password, (err, valid) => {

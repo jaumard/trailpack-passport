@@ -8,7 +8,11 @@
 
 :package: Trailpack to allow passport authentification to Trails application
 
-WARNING : This Trailpack work only with [trailpack-express](https://github.com/trailsjs/trailpack-express) and  [trailpack-waterline](https://github.com/trailsjs/trailpack-waterline)
+### WARNING : 
+
+This Trailpack work only with [trailpack-express](https://github.com/trailsjs/trailpack-express) as webserver 
+
+This Trailpack work only with [trailpack-sequelize](https://github.com/trailsjs/trailpack-sequelize) or [trailpack-waterline](https://github.com/trailsjs/trailpack-waterline) as ORM
 
 ## Intallation
 With yo : 
@@ -59,9 +63,9 @@ middlewares: {
         ]
       }
 ```
-And to configure sessions: 
+And to configure passport: 
 ```js
-// config/session.js
+// config/passport.js
 'use strict'
 
 const JwtStrategy = require('passport-jwt').Strategy
@@ -74,7 +78,6 @@ const ISSUER = 'localhost'
 const AUDIENCE = 'localhost'
 
 module.exports = {
-  secret: SECRET,//secret use by express for his sessions
   redirect: {
     login: '/',//Login successful
     logout: '/'//Logout successful
@@ -153,6 +156,8 @@ module.exports = {
 }
 ```
 
+### WARNING : be sure you configure sessions correctly if your strategies need them
+
 ## Usage
 
 ### Policies 
@@ -166,6 +171,9 @@ Now you can apply some policies to control sessions under `config/policies.js`
       helloWorld: [ 'Passport.jwt' ]
     }
 ```
+
+### Routes prefix
+By default auth routes doesn't have prefix, but if you use `trailpack-footprints` it automatically use footprints prefix to match your API. You can change this prefix by setting `config.passport.prefix`.
 
 ### Log/Register users with third party providers
 You can register or log users with third party strategies by redirect the user to : 
