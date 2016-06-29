@@ -89,10 +89,10 @@ module.exports = class PassportService extends Service {
       else {
         let id = _.get(this.app, 'config.passport.strategies.local.options.usernameField')
         if (!id){
-          if(req.body['username']) {
+          if (req.body['username']) {
             id = 'username'
           }
-          else if(req.body['email']) {
+          else if (req.body['email']) {
             id = 'email'
           }
           else {
