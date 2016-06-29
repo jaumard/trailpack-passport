@@ -107,7 +107,7 @@ module.exports = {
     local: {
       strategy: require('passport-local').Strategy,
       options: {
-        usernameField: 'username'
+        usernameField: 'username' // If you want to enable both username and email just remove this field
       }
     }
 

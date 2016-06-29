@@ -1,6 +1,6 @@
 {
   "name": "trailpack-passport",
-  "version": "1.0.0-beta-8",
+  "version": "1.0.0-beta-9",
   "description": "Trailpack to allow passport authentification to Trails application",
   "homepage": "https://github.com/jaumard/trailpack-passport",
   "author": {

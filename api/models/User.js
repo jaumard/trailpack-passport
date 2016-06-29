@@ -60,6 +60,7 @@ module.exports = class User extends Model {
         },
         email: {
           type: Sequelize.STRING,
+          unique: true,
           validate: {
             isEmail: true
           }

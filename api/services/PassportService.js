@@ -87,8 +87,22 @@ module.exports = class PassportService extends Service {
         this.disconnect(req, next)
       }
       else {
-        const id = _.get(this.app, 'config.passport.strategies.local.options.usernameField')
-        this.login(req.body.identifier || req.body[id], req.body.password)
+        let id = _.get(this.app, 'config.passport.strategies.local.options.usernameField')
+        if (!id){
+          if(req.body['username']) {
+            id = 'username'
+          }
+          else if(req.body['email']) {
+            id = 'email'
+          }
+          else {
+            const err = new Error('No username or email field')
+            err.code = 'E_VALIDATION'
+            return next(err)
+          }
+        }
+
+        this.login(id, req.body.identifier || req.body[id], req.body.password)
           .then(user => next(null, user))
           .catch(next)
       }
@@ -181,9 +195,10 @@ module.exports = class PassportService extends Service {
    * @param password of the user
    * @returns {Promise} promise for next calls
    */
-  login(identifier, password) {
+  login(fieldName, identifier, password) {
     const criteria = {}
-    criteria[_.get(this.app, 'config.passport.strategies.local.options.usernameField') || 'username'] = identifier
+
+    criteria[fieldName] = identifier
 
     return this.app.services.FootprintService.find('User', criteria, {populate: 'passports', findOne: true})
       .then(user => {

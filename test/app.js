@@ -85,10 +85,7 @@ const App = {
           }
         },
         local: {
-          strategy: require('passport-local').Strategy,
-          options: {
-            usernameField: 'username'
-          }
+          strategy: require('passport-local').Strategy
         }/*,
          twitter: {
          name: 'Twitter',

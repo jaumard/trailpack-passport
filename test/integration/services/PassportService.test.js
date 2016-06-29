@@ -11,7 +11,7 @@ describe('PassportService', () => {
     request
       .post('/auth/local/register')
       .set('Accept', 'application/json') //set header for this test
-      .send({username: 'jaumard', password: 'adminadmin'})
+      .send({username: 'jaumard', password: 'adminadmin', email: 'test@test.te'})
       .expect(200)
       .end((err, res) => {
         assert.equal(res.body.redirect, '/')
@@ -70,7 +70,7 @@ describe('PassportService', () => {
     request
       .post('/auth/local')
       .set('Accept', 'application/json') //set header for this test
-      .send({username: 'jaumard', password: 'adminadmin'})
+      .send({email: 'test@test.te', password: 'adminadmin'})
       .expect(200)
       .end((err, res) => {
         assert.equal(res.body.redirect, '/')
