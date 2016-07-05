@@ -36,7 +36,7 @@ module.exports = class User extends Model {
 
   static schema(app, Sequelize) {
     let schema = {}
-    if (app.config.database.orm === 'waterline') {
+    if (app.config.database.orm === 'waterline' || app.config.database.orm === 'js-data') {
       schema = {
         username: {
           type: 'string',
