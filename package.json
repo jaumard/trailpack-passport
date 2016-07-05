@@ -8,6 +8,13 @@
     "email": "jimmy.aumard@gmail.com",
     "url": "https://github.com/jaumard"
   },
+  "contributors": [
+    {
+      "name": "scott-wyatt",
+      "email": "scottwyatt86@gmail.com",
+      "url": "https://cali-style.com"
+    }
+  ],
   "main": "index.js",
   "keywords": [
     "trailpack",
