@@ -64,6 +64,7 @@ middlewares: {
       }
 ```
 And to configure passport: 
+
 ```js
 // config/passport.js
 'use strict'
@@ -157,6 +158,8 @@ module.exports = {
 ```
 
 ### WARNING : be sure you configure sessions correctly if your strategies need them
+
+Further documentation on passport-jwt config can be found at [themikenicholson/passport-jwt](https://github.com/themikenicholson/passport-jwt)
 
 ## Usage
 
