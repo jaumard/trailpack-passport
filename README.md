@@ -157,6 +157,14 @@ module.exports = {
 }
 ```
 
+Then make sure to include the new file in **config/index.js**
+
+```
+//config/index.js
+...
+exports.passport = require('./passport')
+```
+
 ### WARNING : be sure you configure sessions correctly if your strategies need them
 
 Further documentation on passport-jwt config can be found at [themikenicholson/passport-jwt](https://github.com/themikenicholson/passport-jwt)
