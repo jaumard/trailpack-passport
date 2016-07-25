@@ -12,7 +12,14 @@
 
 This Trailpack work only with [trailpack-express](https://github.com/trailsjs/trailpack-express) as webserver 
 
-This Trailpack work only with [trailpack-sequelize](https://github.com/trailsjs/trailpack-sequelize) or [trailpack-waterline](https://github.com/trailsjs/trailpack-waterline) as ORM
+### Supported ORMs
+| Repo          |  Build Status (edge)                  |
+|---------------|---------------------------------------|
+| [trailpack-waterline](https://github.com/trailsjs/trailpack-waterline) | [![Build status][ci-waterline-image]][ci-waterline-url] |
+| [trailpack-sequelize](https://github.com/trailsjs/trailpack-sequelize) | [![Build status][ci-sequelize-image]][ci-sequelize-url] |
+| [trailpack-js-data](https://github.com/scott-wyatt/trailpack-js-data) | [![Build status][ci-jsdata-image]][ci-jsdata-url] |
+
+Don't see your ORM here? Make a PR!
 
 ## Intallation
 With yo : 
@@ -228,3 +235,10 @@ Clone the repo and play a little with it to see how it works :)
 [codeclimate-url]: https://codeclimate.com/github/jaumard/trailpack-passport
 [gitter-image]: http://img.shields.io/badge/+%20GITTER-JOIN%20CHAT%20%E2%86%92-1DCE73.svg?style=flat-square
 [gitter-url]: https://gitter.im/trailsjs/trails
+
+[ci-waterline-image]: https://img.shields.io/travis/trailsjs/trailpack-waterline/master.svg?style=flat-square
+[ci-waterline-url]: https://travis-ci.org/trailsjs/trailpack-waterline
+[ci-sequelize-image]: https://img.shields.io/travis/trailsjs/trailpack-sequelize/master.svg?style=flat-square
+[ci-sequelize-url]: https://travis-ci.org/trailsjs/trailpack-sequelize
+[ci-jsdata-image]: https://img.shields.io/travis/scott-wyatt/trailpack-js-data/master.svg?style=flat-square
+[ci-jsdata-url]: https://travis-ci.org/scott-wyatt/trailpack-js-data

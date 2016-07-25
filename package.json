@@ -8,6 +8,13 @@
     "email": "jimmy.aumard@gmail.com",
     "url": "https://github.com/jaumard"
   },
+  "contributors": [
+    {
+      "name": "scott-wyatt",
+      "email": "scottwyatt86@gmail.com",
+      "url": "https://cali-style.com"
+    }
+  ],
   "main": "index.js",
   "keywords": [
     "trailpack",
@@ -41,6 +48,7 @@
     "eslint": "^2.13.1",
     "eslint-config-trails": "^1.0.6",
     "express": "^4.14.0",
+    "js-data-sql": "^0.11.17",
     "mocha": "^2.5.3",
     "passport-jwt": "^2.1.0",
     "passport-local": "^1.0.0",
@@ -50,15 +58,17 @@
     "supertest": "^1.2.0",
     "trailpack-core": "^1.0.0",
     "trailpack-express": "^1.0.4",
+    "trailpack-js-data": "^0.0.1",
     "trailpack-router": "^1.0.4",
     "trailpack-sequelize": "^1.0.1",
     "trailpack-waterline": "^1.0.0-beta-1",
     "trails": "^1.0.4"
   },
   "scripts": {
-    "test": "eslint --fix . && npm run testWaterline && npm run testSequelize",
+    "test": "eslint . && npm run testWaterline && npm run testSequelize",
     "testWaterline": "export ORM=waterline;mocha",
-    "testSequelize": "export ORM=sequelize;mocha"
+    "testSequelize": "export ORM=sequelize;mocha",
+    "testJSData": "export ORM=js-data;mocha"
   },
   "engines": {
     "node": ">= 4.0.0"
