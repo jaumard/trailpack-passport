@@ -5,6 +5,8 @@
 [![Build status][ci-image]][ci-url]
 [![Dependency Status][daviddm-image]][daviddm-url]
 [![Code Climate][codeclimate-image]][codeclimate-url]
+[![Beerpay](https://beerpay.io/jaumard/trailpack-passport/badge.svg?style=flat)](https://beerpay.io/jaumard/trailpack-passport)
+[![Beerpay](https://beerpay.io/jaumard/trailpack-passport/make-wish.svg?style=flat)](https://beerpay.io/jaumard/trailpack-passport)
 
 :package: Trailpack to allow passport authentification to Trails application
 
