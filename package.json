@@ -41,7 +41,7 @@
     "eslint": "^2.13.1",
     "eslint-config-trails": "^1.0.6",
     "express": "^4.14.0",
-    "mocha": "^2.5.3",
+    "mocha": "^3.0.2",
     "passport-jwt": "^2.1.0",
     "passport-local": "^1.0.0",
     "sails-disk": "^0.10.10",
