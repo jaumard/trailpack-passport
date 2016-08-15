@@ -47,7 +47,7 @@
     "sails-disk": "^0.10.10",
     "smokesignals": "^1.2.2",
     "sqlite3": "^3.1.4",
-    "supertest": "^1.2.0",
+    "supertest": "^2.0.0",
     "trailpack-core": "^1.0.0",
     "trailpack-express": "^1.0.4",
     "trailpack-router": "^1.0.4",
