@@ -1,5 +1,6 @@
 # trailpack-passport
 [![Gitter][gitter-image]][gitter-url]
+[![Known Vulnerabilities][snyk-image]][snyk-url]
 [![NPM version][npm-image]][npm-url]
 [![NPM downloads][npm-download]][npm-url]
 [![Build status][ci-image]][ci-url]
@@ -218,7 +219,8 @@ Clone the repo and play a little with it to see how it works :)
 ## License
 [MIT](https://github.com/jaumard/trailpack-passport/blob/master/LICENSE)
 
-
+[snyk-image]: https://snyk.io/test/github/jaumard/trailpack-passport/badge.svg
+[snyk-url]: https://snyk.io/test/github/jaumard/trailpack-passport/
 [npm-image]: https://img.shields.io/npm/v/trailpack-passport.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/trailpack-passport
 [npm-download]: https://img.shields.io/npm/dt/trailpack-passport.svg
