@@ -29,7 +29,7 @@
     "bcrypt": "^0.8.7",
     "joi": "^9.1.0",
     "jsonwebtoken": "^7.1.9",
-    "lodash": "^4.16.4",
+    "lodash": "^4.16.5",
     "passport": "^0.3.2",
     "trailpack": "^1.0.5",
     "trails-controller": "^1.0.0-beta-2",
