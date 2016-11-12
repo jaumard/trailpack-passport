@@ -11,7 +11,7 @@ module.exports = {
   provides: {
     api: {
       controllers: [ 'AuthController' ],
-      services: [ 'PassportController' ]
+      services: ['PassportService']
       // ...
     },
     config: [ ]
