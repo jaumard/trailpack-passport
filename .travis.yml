@@ -15,7 +15,7 @@ matrix:
       env:
         - CXX=g++-4.8
       node_js:
-      - 4
+        - 4
     - os: linux
       addons:
         # Required to compile native modules on newer Node.js versions
@@ -28,7 +28,7 @@ matrix:
       env:
         - CXX=g++-4.8
       node_js:
-      - 5
+        - 5
     - os: linux
       addons:
         # Required to compile native modules on newer Node.js versions
@@ -41,15 +41,15 @@ matrix:
       env:
         - CXX=g++-4.8
       node_js:
-      - 6
+        - 6
     - os: osx
-        node_js:
+      node_js:
         - 4
     - os: osx
-        node_js:
+      node_js:
         - 5
     - os: osx
-        node_js:
+      node_js:
         - 6
 
 notifications:
