@@ -136,7 +136,11 @@ module.exports = class PassportService extends Service {
       return this.app.services.FootprintService.createAssociation('user', user.id, 'passports', {
         protocol: 'local',
         password: password
-      }).then(passport => Promise.resolve(user))
+      }).then(passport => Promise.resolve(user)).catch(err => {
+        return this.app.services.FootprintService.destroy('user', user.id)
+          .then(() => Promise.reject(err))
+          .catch(() => Promise.reject(err))
+      })
     })
   }
 

@@ -144,7 +144,12 @@ module.exports = class Passport extends Model {
         password: {
           type: Sequelize.STRING,
           allowNull: true,
-          min: 8
+          validate: {
+            len: {
+              args: [8, 30],
+              msg: 'Password must be between 8 and 30 characters in length'
+            }
+          }
         },
 
         provider: {type: Sequelize.STRING, allowNull: true},
