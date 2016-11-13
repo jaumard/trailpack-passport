@@ -7,6 +7,10 @@ module.exports = {
   },
 
   onUserLogged: (app, user) => {
+    user = user.toJSON()
+    if (user.passports) {
+      delete user.passports
+    }
     return Promise.resolve(user)
   }
 }

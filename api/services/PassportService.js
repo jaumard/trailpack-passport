@@ -24,7 +24,7 @@ module.exports = class PassportService extends Service {
   createToken(user) {
     const config = this.app.config.passport.strategies.jwt
     return jwt.sign({
-      user: user.toJSON()
+        user: user.toJSON ? user.toJSON() : user
     },
       config.tokenOptions.secret,
       {
@@ -88,7 +88,7 @@ module.exports = class PassportService extends Service {
       }
       else {
         let id = _.get(this.app, 'config.passport.strategies.local.options.usernameField')
-        if (!id){
+        if (!id) {
           if (req.body['username']) {
             id = 'username'
           }
@@ -220,8 +220,8 @@ module.exports = class PassportService extends Service {
             }
 
             return valid
-            ? resolve(onUserLogged(this.app, user))
-            : reject(new Error('E_WRONG_PASSWORD'))
+              ? resolve(onUserLogged(this.app, user))
+              : reject(new Error('E_WRONG_PASSWORD'))
           })
         })
       })

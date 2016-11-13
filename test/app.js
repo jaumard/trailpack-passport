@@ -64,6 +64,10 @@ const App = {
     },
     passport: {
       onUserLogged: (app, user) => {
+        user = user.toJSON()
+        if (user.passports) {
+          delete user.passports
+        }
         user.onUserLogged = true
         return Promise.resolve(user)
       },
