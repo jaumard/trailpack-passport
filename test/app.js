@@ -12,8 +12,6 @@ const AUDIENCE = 'localhost'
 const SECRET = 'mysupersecuretokentest'
 
 const packs = [
-  smokesignals.Trailpack,
-  require('trailpack-core'),
   require('trailpack-router'),
   require('trailpack-express'),
   require('../') // trailpack-passport

@@ -1,6 +1,6 @@
 {
   "name": "trailpack-passport",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Trailpack to allow passport authentification to Trails application",
   "homepage": "https://github.com/jaumard/trailpack-passport",
   "author": {
@@ -26,35 +26,34 @@
     "login"
   ],
   "dependencies": {
-    "bcrypt": "^1.0.0",
-    "joi": "^10.0.1",
-    "jsonwebtoken": "^7.1.9",
-    "lodash": "^4.16.4",
+    "bcrypt": "^1.0.1",
+    "joi": "^10.1.0",
+    "jsonwebtoken": "^7.2.1",
+    "lodash": "^4.17.3",
     "passport": "^0.3.2",
-    "trailpack": "^1.0.5",
-    "trails-controller": "^1.0.0",
-    "trails-model": "^1.0.0",
-    "trails-policy": "^1.0.2",
-    "trails-service": "^1.0.0"
+    "trailpack": "^2.1.0",
+    "trails-controller": "^2.0.0",
+    "trails-model": "^2.0.1",
+    "trails-policy": "^2.0.0",
+    "trails-service": "^2.0.0"
   },
   "devDependencies": {
-    "eslint": "^3.7.1",
-    "eslint-config-trails": "^1.0.7",
+    "eslint": "^3.12.2",
+    "eslint-config-trails": "^2.0.4",
     "express": "^4.14.0",
-    "mocha": "^3.1.2",
+    "mocha": "^3.2.0",
     "passport-jwt": "^2.1.0",
     "passport-local": "^1.0.0",
     "sails-disk": "^0.10.10",
-    "smokesignals": "^1.2.2",
+    "smokesignals": "^2",
+    "snyk": "^1.22.1",
     "sqlite3": "^3.1.6",
     "supertest": "^2.0.0",
-    "trailpack-core": "^1.0.1",
-    "trailpack-express": "^1.0.14",
-    "trailpack-router": "^1.0.8",
-    "trailpack-sequelize": "^1.1.1",
-    "trailpack-waterline": "^1.0.0-beta-1",
-    "trails": "^1.1.0",
-    "snyk": "^1.19.1"
+    "trailpack-express": "^2.0.0",
+    "trailpack-router": "^2.1.0",
+    "trailpack-sequelize": "^2.0.0",
+    "trailpack-waterline": "^2.0.0",
+    "trails": "^2.0.0"
   },
   "scripts": {
     "test": "snyk test && eslint --fix . && npm run testWaterline && npm run testSequelize",
