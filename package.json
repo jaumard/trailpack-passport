@@ -51,7 +51,7 @@
     "trailpack-core": "^1.0.1",
     "trailpack-express": "^1.0.14",
     "trailpack-router": "^1.0.8",
-    "trailpack-sequelize": "^1.1.1",
+    "trailpack-sequelize": "^2.0.0",
     "trailpack-waterline": "^1.0.0-beta-1",
     "trails": "^1.1.0",
     "snyk": "^1.19.1"
