@@ -5,7 +5,7 @@ module.exports = {
     login: '/',//Login successful
     logout: '/'//Logout successful
   },
-
+  bcrypt: require('bcryptjs'),
   onUserLogged: (app, user) => {
     user = user.toJSON()
     if (user.passports) {

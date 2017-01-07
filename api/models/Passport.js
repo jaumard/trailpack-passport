@@ -1,15 +1,15 @@
 'use strict'
 
 const Model = require('trails-model')
-const bcrypt = require('bcrypt')
 
 /**
  * Hash a passport password.
  *
+ * @param bcrypt implementation
  * @param {Object}   passport
  * @param {Function} next
  */
-const hashPassword = (passport, next) => {
+const hashPassword = (bcrypt, passport, next) => {
   if (passport.password) {
     bcrypt.hash(passport.password, 10, (err, hash) => {
       passport.password = hash
@@ -40,7 +40,7 @@ module.exports = class Passport extends Model {
          * @param {Function} next
          */
         beforeCreate: (passport, next) => {
-          hashPassword(passport, next)
+          hashPassword(app.config.passport.bcrypt, passport, next)
         },
 
         /**
@@ -50,7 +50,7 @@ module.exports = class Passport extends Model {
          * @param {Function} next
          */
         beforeUpdate: (passport, next) => {
-          hashPassword(passport, next)
+          hashPassword(app.config.passport.bcrypt, passport, next)
         }
       }
     }
@@ -60,10 +60,10 @@ module.exports = class Passport extends Model {
         options: {
           hooks: {
             beforeCreate: (values, options, fn) => {
-              hashPassword(values, fn)
+              hashPassword(app.config.passport.bcrypt, values, fn)
             },
             beforeUpdate: (values, options, fn) => {
-              hashPassword(values, fn)
+              hashPassword(app.config.passport.bcrypt, values, fn)
             }
           },
           classMethods: {

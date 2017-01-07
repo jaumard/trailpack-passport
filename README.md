@@ -86,6 +86,7 @@ module.exports = {
     login: '/',//Login successful
     logout: '/'//Logout successful
   },
+  bcrypt: require('bcryptjs'), // custom bcrypt version if you prefer the native one instead of full js
   //Called when user is logged, before returning the json response
   onUserLogged: (app, user) => {
       return Promise.resolve(user)

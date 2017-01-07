@@ -1,8 +1,6 @@
 'use strict'
 
 const Service = require('trails-service')
-
-const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const _ = require('lodash')
 
@@ -218,7 +216,7 @@ module.exports = class PassportService extends Service {
         const onUserLogged = _.get(this.app, 'config.passport.onUserLogged')
 
         return new Promise((resolve, reject) => {
-          bcrypt.compare(password, passport.password, (err, valid) => {
+          this.app.config.passport.bcrypt.compare(password, passport.password, (err, valid) => {
             if (err) {
               return reject(err)
             }
