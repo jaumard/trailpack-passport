@@ -91,6 +91,15 @@ module.exports = {
   onUserLogged: (app, user) => {
       return Promise.resolve(user)
   },
+  //Optional: can be used to merge data from the oAuth/ oAuth2 profile and the default username user.
+  mergeThirdPartyProfile: (user, profile) => {
+    console.log(profile)
+    var mergedProfile = {
+      email: user.email,
+      gender: profile.gender
+    }
+    return Promise.resolve(mergedProfile)
+  },
   strategies: {
     jwt: {
       strategy: JwtStrategy,

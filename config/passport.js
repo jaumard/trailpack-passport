@@ -12,5 +12,8 @@ module.exports = {
       delete user.passports
     }
     return Promise.resolve(user)
+  },
+  mergeThirdPartyProfile: (user, profile) => {
+    return Promise.resolve(user)
   }
 }
