@@ -93,7 +93,7 @@ module.exports = {
   },
   //Optional: can be used to merge data from all third party profiles and the default user properties.
   mergeThirdPartyProfile: (user, profile) => {
-    var mergedProfile = {
+    const mergedProfile = {
       email: user.email,
       gender: profile.gender
     }
