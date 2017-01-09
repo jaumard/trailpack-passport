@@ -91,7 +91,7 @@ module.exports = {
   onUserLogged: (app, user) => {
       return Promise.resolve(user)
   },
-  //Optional: can be used to merge data from the oAuth / oAuth2 profile and the default user properties.
+  //Optional: can be used to merge data from all third party profiles and the default user properties.
   mergeThirdPartyProfile: (user, profile) => {
     var mergedProfile = {
       email: user.email,
