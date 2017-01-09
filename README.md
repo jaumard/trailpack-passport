@@ -93,7 +93,6 @@ module.exports = {
   },
   //Optional: can be used to merge data from the oAuth / oAuth2 profile and the default user properties.
   mergeThirdPartyProfile: (user, profile) => {
-    console.log(profile)
     var mergedProfile = {
       email: user.email,
       gender: profile.gender
