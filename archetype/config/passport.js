@@ -85,7 +85,9 @@ module.exports = {
       strategy: require('passport-google-oauth').OAuth2Strategy,
       options: {
         clientID: 'your-client-id',
-        clientSecret: 'your-client-secret'
+        clientSecret: 'your-client-secret',
+        callbackURL:  'your-app-url' + '/auth/google/callback',
+        scope:        ['https://www.googleapis.com/auth/plus.login']
       }
     }
 
