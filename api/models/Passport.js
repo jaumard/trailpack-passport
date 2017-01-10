@@ -70,7 +70,7 @@ module.exports = class Passport extends Model {
             //If you need associations, put them here
             associate: (models) => {
               //More information about associations here : http://docs.sequelizejs.com/en/latest/docs/associations/
-
+              models.Passport.belongsTo(models.User)
             }
           }
         }
