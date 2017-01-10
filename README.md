@@ -162,7 +162,12 @@ module.exports = {
      protocol: 'oauth2',
      options: {
      clientID     : 'your-client-id',
-     clientSecret : 'your-client-secret'
+     clientSecret : 'your-client-secret',
+     callbackURL:  'your-app-url' + '/auth/google/callback',
+     scope:        [
+      'https://www.googleapis.com/auth/plus.login',
+      'https://www.googleapis.com/auth/plus.profile.emails.read'
+     ]
      }
      }*/
   }
