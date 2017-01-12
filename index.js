@@ -13,6 +13,10 @@ module.exports = class PassportTrailpack extends Trailpack {
       return Promise.reject(new Error('This Trailpack work only for express !'))
     }
 
+    if (!_.includes(_.keys(this.app.packs), 'waterline') && !_.includes(_.keys(this.app.packs), 'sequelize')) {
+      return Promise.reject(new Error('This Trailpack work only with waterline or sequelize!'))
+    }
+
     if (!this.app.config.passport) {
       return Promise.reject(new Error('No configuration found at config.passport !'))
     }
