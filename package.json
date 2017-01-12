@@ -56,6 +56,7 @@
     "trails": "^2.0.0"
   },
   "scripts": {
+    "snyk-auth": "snyk auth $SNYK_TOKEN",
     "test": "snyk test && eslint --fix . && npm run testWaterline && npm run testSequelize",
     "testWaterline": "export ORM=waterline;mocha",
     "testSequelize": "export ORM=sequelize;mocha"
