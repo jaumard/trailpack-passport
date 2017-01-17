@@ -13,8 +13,8 @@ module.exports = class PassportTrailpack extends Trailpack {
       return Promise.reject(new Error('This Trailpack work only for express !'))
     }
 
-    if (!_.includes(_.keys(this.app.packs), 'waterline') && !_.includes(_.keys(this.app.packs), 'sequelize')) {
-      return Promise.reject(new Error('This Trailpack work only with waterline or sequelize!'))
+    if (!_.includes(_.keys(this.app.packs), 'waterline') && !_.includes(_.keys(this.app.packs), 'sequelize')&& !_.includes(_.keys(this.app.packs), 'mongoose')) {
+      return Promise.reject(new Error('This Trailpack work only with waterline, sequelize or mongoose!'))
     }
 
     if (!this.app.config.passport) {

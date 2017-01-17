@@ -50,6 +50,7 @@
     "sqlite3": "^3.1.6",
     "supertest": "^2.0.0",
     "trailpack-express": "^2.0.0",
+    "trailpack-mongoose": "1.0.1",
     "trailpack-router": "^2.1.0",
     "trailpack-sequelize": "^2.0.0",
     "trailpack-waterline": "^2.0.0",
@@ -59,7 +60,8 @@
     "snyk-auth": "snyk auth $SNYK_TOKEN",
     "test": "snyk test && eslint --fix . && npm run testWaterline && npm run testSequelize",
     "testWaterline": "export ORM=waterline;mocha",
-    "testSequelize": "export ORM=sequelize;mocha"
+    "testSequelize": "export ORM=sequelize;mocha",
+    "testMongoose": "export ORM=mongoose;mocha"
   },
   "engines": {
     "node": ">= 4.0.0"

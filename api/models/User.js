@@ -19,4 +19,8 @@ module.exports = class User extends Model {
       return require('./' + app.config.database.orm).User.schema(app, orm)
     }
   }
+
+  static onSchema(model) {
+    return require('./mongoose').Passport.onSchema(model)
+  }
 }
