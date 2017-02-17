@@ -203,11 +203,12 @@ module.exports = class PassportService extends Service {
 
     criteria[fieldName] = identifier
 
-    return this.app.services.FootprintService.find('User', criteria, {populate: 'passports', findOne: true})
+    return this.app.services.FootprintService.find('User', criteria, {populate: 'passports'})
       .then(user => {
         if (!user) {
           throw new Error('E_USER_NOT_FOUND')
         }
+        user = user[0]
 
         const passport = user.passports.find(passportObj => passportObj.protocol === 'local')
         if (!passport) {

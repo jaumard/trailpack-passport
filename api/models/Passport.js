@@ -20,7 +20,4 @@ module.exports = class Passport extends Model {
     }
   }
 
-  static onSchema(model) {
-    return require('./mongoose').Passport.onSchema(model)
-  }
 }
