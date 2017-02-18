@@ -18,8 +18,7 @@ notifications:
     - https://webhooks.gitter.im/e/54f8a1e753f859f5ca1a
     on_start: never
     on_failure: change
-before_script:
-  - npm run snyk-auth
+
 deploy:
   provider: npm
   email: jimmy.aumard@gmail.com
