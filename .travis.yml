@@ -10,8 +10,7 @@ node_js:
 - 7
 services:
   - mongodb
-before_script:
-  - npm run snyk-auth  
+ 
 notifications:
   email: false
   webhooks:
