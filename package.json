@@ -58,7 +58,7 @@
   },
   "scripts": {
     "snyk-auth": "snyk auth $SNYK_TOKEN",
-    "test": "eslint --fix . && npm run testWaterline && npm run testSequelize && npm run testMongoose",
+    "test": "snyk test && eslint --fix . && npm run testWaterline && npm run testSequelize && npm run testMongoose",
     "testWaterline": "export ORM=waterline;mocha",
     "testSequelize": "export ORM=sequelize;mocha",
     "testMongoose": "export ORM=mongoose;mocha"
