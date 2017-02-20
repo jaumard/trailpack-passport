@@ -13,8 +13,8 @@ module.exports = class PassportTrailpack extends Trailpack {
       return Promise.reject(new Error('This Trailpack work only for express !'))
     }
 
-    if (!_.includes(_.keys(this.app.packs), 'waterline') && !_.includes(_.keys(this.app.packs), 'sequelize') && !_.includes(_.keys(this.app.packs), 'mongoose')) {  //eslint-disable-line
-      return Promise.reject(new Error('This Trailpack work only with waterline, sequelize or mongoose!')) //eslint-disable-line
+    if (!_.includes(_.keys(this.app.packs), 'waterline') && !_.includes(_.keys(this.app.packs), 'sequelize') && !_.includes(_.keys(this.app.packs), 'mongoose')) {
+      return Promise.reject(new Error('This Trailpack work only with waterline, sequelize or mongoose!'))
     }
 
     if (!this.app.config.passport) {
@@ -26,7 +26,7 @@ module.exports = class PassportTrailpack extends Trailpack {
       return Promise.reject(new Error('No strategies found at config.passport.strategies !'))
     }
 
-    if (strategies.jwt && _.get(this.app, 'config.passport.jwt.tokenOptions.secret') === 'mysupersecuretoken') {  //eslint-disable-line
+    if (strategies.jwt && _.get(this.app, 'config.passport.jwt.tokenOptions.secret') === 'mysupersecuretoken') {
       return Promise.reject(new Error('You need to change the default token !'))
     }
 
