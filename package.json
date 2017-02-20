@@ -27,7 +27,7 @@
   ],
   "dependencies": {
     "bcryptjs": "^2.4.0",
-    "joi": "^10.1.0",
+    "joi": "10.2.0",
     "jsonwebtoken": "^7.2.1",
     "lodash": "^4.17.3",
     "passport": "^0.3.2",
@@ -38,7 +38,7 @@
     "trails-service": "^2.0.0"
   },
   "devDependencies": {
-    "eslint": "^3.12.2",
+    "eslint": "3.14.0",
     "eslint-config-trails": "^2.0.4",
     "express": "^4.14.0",
     "mocha": "^3.2.0",
@@ -46,10 +46,11 @@
     "passport-local": "^1.0.0",
     "sails-disk": "^0.10.10",
     "smokesignals": "^2",
-    "snyk": "^1.22.1",
+    "snyk": "1.24.6",
     "sqlite3": "^3.1.6",
     "supertest": "^2.0.0",
     "trailpack-express": "^2.0.0",
+    "trailpack-mongoose": "2.1.0",
     "trailpack-router": "^2.1.0",
     "trailpack-sequelize": "^2.0.0",
     "trailpack-waterline": "^2.0.0",
@@ -57,9 +58,10 @@
   },
   "scripts": {
     "snyk-auth": "snyk auth $SNYK_TOKEN",
-    "test": "snyk test && eslint --fix . && npm run testWaterline && npm run testSequelize",
+    "test": "snyk test && eslint --fix . && npm run testWaterline && npm run testSequelize && npm run testMongoose",
     "testWaterline": "export ORM=waterline;mocha",
-    "testSequelize": "export ORM=sequelize;mocha"
+    "testSequelize": "export ORM=sequelize;mocha",
+    "testMongoose": "export ORM=mongoose;mocha"
   },
   "engines": {
     "node": ">= 4.0.0"

@@ -37,6 +37,14 @@ else if (ORM === 'sequelize') {
     dialect: 'sqlite'
   }
 }
+else if (ORM === 'mongoose') {
+  packs.push(require('trailpack-mongoose'))
+  stores.sqlitedev = {
+    migrate: 'create',
+    uri: 'mongodb://localhost:27017/test',
+    options: {}
+  }
+}
 
 const App = {
   pkg: {

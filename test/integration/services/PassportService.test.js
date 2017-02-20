@@ -15,7 +15,7 @@ describe('PassportService', () => {
       .expect(200)
       .end((err, res) => {
         assert.equal(res.body.redirect, '/')
-        assert.equal(res.body.user.id, 1)
+        assert.notEqual(res.body.user.id,null)
         token = res.body.token
         done(err)
       })
@@ -33,7 +33,7 @@ describe('PassportService', () => {
       .expect(200)
       .end((err, res) => {
         assert.equal(res.body.redirect, '/')
-        assert.equal(res.body.user.id, 2)
+        assert.notEqual(res.body.user.id,null)
         assert.equal(res.body.user.username, 'jim')
         done(err)
       })
@@ -59,7 +59,7 @@ describe('PassportService', () => {
       .expect(200)
       .end((err, res) => {
         assert.equal(res.body.redirect, '/')
-        assert.equal(res.body.user.id, 3)
+        assert.notEqual(res.body.user.id,null)
         assert.equal(res.body.user.username, 'jim2')
         done(err)
       })
@@ -74,7 +74,7 @@ describe('PassportService', () => {
       .expect(200)
       .end((err, res) => {
         assert.equal(res.body.redirect, '/')
-        assert.equal(res.body.user.id, 1)
+        assert.notEqual(res.body.user.id,null)
         assert.equal(res.body.user.username, 'jaumard')
         assert(res.body.token)//JWT token
         done(err)
@@ -90,7 +90,7 @@ describe('PassportService', () => {
       .expect(200)
       .end((err, res) => {
         assert.equal(res.body.redirect, '/')
-        assert.equal(res.body.user.id, 3)
+        assert.notEqual(res.body.user.id,null)
         assert.equal(res.body.user.username, 'jim2')
         assert(res.body.token)//JWT token
         done(err)

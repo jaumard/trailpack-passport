@@ -15,7 +15,11 @@
 
 This Trailpack work only with [trailpack-express](https://github.com/trailsjs/trailpack-express) as webserver 
 
-This Trailpack work only with [trailpack-sequelize](https://github.com/trailsjs/trailpack-sequelize) or [trailpack-waterline](https://github.com/trailsjs/trailpack-waterline) as ORM
+This Trailpack work only with these ORMs:
+
+* [trailpack-sequelize](https://github.com/trailsjs/trailpack-sequelize)
+* [trailpack-waterline](https://github.com/trailsjs/trailpack-waterline)
+* [trailpack-mongoose](https://github.com/trailsjs/trailpack-mongoose)
 
 ## Intallation
 With yo : 
