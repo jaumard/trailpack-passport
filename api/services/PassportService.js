@@ -144,6 +144,39 @@ module.exports = class PassportService extends Service {
   }
 
   /**
+   * Update the local passport password of an user
+   * @param user
+   * @param password
+   * @returns {Promise}
+   */
+  updateLocalPassword(user, password) {
+    const criteria = (user._id) ? {_id: user.id} : {id: user.id} //eslint-disable-line
+
+    return this.app.services.FootprintService.find('user', criteria, {populate: 'passports'})
+      .then(user => {
+        if (user && user.length > 0) {
+          user = user[0]
+          if (user.passports) {
+            const localPassport = user.passports.find(passportObj => passportObj.protocol === 'local')
+            if (localPassport) {
+              localPassport.password = password
+              return localPassport.save()
+            }
+            else {
+              throw new Error('E_NO_AVAILABLE_LOCAL_PASSPORT')
+            }
+          }
+          else {
+            throw new Error('E_NO_AVAILABLE_PASSPORTS')
+          }
+        }
+        else {
+          throw new Error('E_USER_NOT_FOUND')
+        }
+      })
+  }
+
+  /**
    * Assign local Passport to user
    *
    * This function can be used to assign a local Passport to a user who doens't

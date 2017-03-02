@@ -5,7 +5,7 @@ const assert = require('assert')
 const supertest = require('supertest')
 
 describe('PassportService', () => {
-  let request, token
+  let request, token, user
   before((done) => {
     request = supertest('http://localhost:3000')
     request
@@ -16,6 +16,7 @@ describe('PassportService', () => {
       .end((err, res) => {
         assert.equal(res.body.redirect, '/')
         assert.notEqual(res.body.user.id,null)
+        user = res.body.user
         token = res.body.token
         done(err)
       })
@@ -106,5 +107,20 @@ describe('PassportService', () => {
         assert.equal(res.text, 'ok')
         done(err)
       })
+  })
+
+  it('should be able to update password', (done) => {
+    // Hackfix for trailpack-mongoose, we should update trailpack-mongoose FootprintService.find for avoiding this
+    const criteria = (user._id) ? {_id: user.id} : {id: user.id} //eslint-disable-line
+
+    global.app.services.FootprintService.find('user', criteria, {populate: 'passports'})
+      .then(user => {
+        global.app.services.PassportService.updateLocalPassword(user[0], 'testtest')
+          .then(() => {
+            done()
+          })
+          .catch(done)
+      })
+      .catch(done)
   })
 })
