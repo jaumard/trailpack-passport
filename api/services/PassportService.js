@@ -163,15 +163,15 @@ module.exports = class PassportService extends Service {
               return localPassport.save()
             }
             else {
-              return Promise.resolve()
+              throw new Error('E_NO_AVAILABLE_LOCAL_PASSPORT')
             }
           }
           else {
-            return Promise.reject('no_available_passports')
+            throw new Error('E_NO_AVAILABLE_PASSPORTS')
           }
         }
         else {
-          return Promise.reject('no_user')
+          throw new Error('E_USER_NOT_FOUND')
         }
       })
   }
