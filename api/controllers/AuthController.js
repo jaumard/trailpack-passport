@@ -6,7 +6,9 @@ const Controller = require('trails-controller')
 module.exports = class AuthController extends Controller {
 
   provider(req, res) {
-    this.app.services.PassportService.endpoint(req, res, req.params.provider)
+    this.app.services.PassportService.endpoint(req, res, req.params.provider).catch(e => {
+      res.serverError(e)
+    })
   }
 
   callback(req, res) {
