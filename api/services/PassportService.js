@@ -59,6 +59,7 @@ module.exports = class PassportService extends Service {
     // the provider will redirect the user back to the application at
     //     /auth/:provider/callback
     this.passport.authenticate(provider, options)(req, res, req.next)
+    return Promise.resolve()
   }
 
   /**
