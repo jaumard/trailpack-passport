@@ -43,7 +43,7 @@ module.exports = {
         allowNull: true,
         validate: {
           len: {
-            args: [8, null],
+            args: [8, undefined],
             msg: 'Password must be long at least 8 characters'
           }
         }
