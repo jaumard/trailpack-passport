@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "eslint": "3.18.0",
-    "eslint-config-trails": "2.0.8",
+    "eslint-config-trails": "3.0.0-pre",
     "express": "4.15.2",
     "mocha": "^3.2.0",
     "passport-jwt": "^2.1.0",
