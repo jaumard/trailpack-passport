@@ -239,7 +239,7 @@ module.exports = class PassportService extends Service {
 
     return this.app.services.FootprintService.find('User', criteria, {populate: 'passports'})
       .then(user => {
-        if (!user) {
+        if (!user || !user[0]) {
           throw new Error('E_USER_NOT_FOUND')
         }
         user = user[0]

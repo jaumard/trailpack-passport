@@ -1,4 +1,6 @@
 # trailpack-passport
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/jaumard/trailpack-passport.svg)](https://greenkeeper.io/)
 [![Gitter][gitter-image]][gitter-url]
 [![Known Vulnerabilities][snyk-image]][snyk-url]
 [![NPM version][npm-image]][npm-url]
