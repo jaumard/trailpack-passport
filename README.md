@@ -232,6 +232,10 @@ http://localhost:3000/auth/github/disconnect
 ### Logout
 Just make a GET to `auth/logout`
 
+### Disabling login and/or registration
+In order to do that, you just need to add a custom policy on your project that will return a 404 for the following methods: 
+`AuthController.login` and `AuthController.register`
+
 ## Full example
 If you have some trouble, you can view a full example with JWT and local strategies here : https://github.com/jaumard/trails-example-express
 Clone the repo and play a little with it to see how it works :)
