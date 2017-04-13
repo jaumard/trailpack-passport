@@ -17,6 +17,23 @@ module.exports = class AuthController extends Controller {
     })
   }
 
+  register(req, res) {
+    req.params.action = 'register'
+    this.callback(req, res)
+  }
+
+  login(req, res) {
+    this.callback(req, res)
+  }
+
+  connect(req, res) {
+    this.callback(req, res)
+  }
+
+  disconnect(req, res) {
+    this.callback(req, res)
+  }
+
   callback(req, res) {
     this.app.services.PassportService.callback(req, res, (err, user, challenges, statuses) => {
       if (err) {
