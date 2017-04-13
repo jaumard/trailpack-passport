@@ -7,23 +7,29 @@ module.exports = class AuthController extends Controller {
 
   provider(req, res) {
     this.app.services.PassportService.endpoint(req, res, req.params.provider).catch(e => {
-      res.serverError(e)
+      if (e.code === 'E_NOT_FOUND') {
+        req.err = e
+        res.notFound(req, res)
+      }
+      else {
+        res.serverError(e)
+      }
     })
   }
 
   callback(req, res) {
     this.app.services.PassportService.callback(req, res, (err, user, challenges, statuses) => {
       if (err) {
-        if (err.message === 'E_USER_NOT_FOUND') {
+        if (err.code === 'E_USER_NOT_FOUND') {
           req.err = err
           res.notFound(req, res)
         }
-        else if (err.code === 'E_VALIDATION' || err.message === 'passport.initialize() middleware not in use' ) {
+        else if (err.code === 'E_VALIDATION' || err.message === 'passport.initialize() middleware not in use') {
           res.status(400).json({error: err.message || err})
         }
         else if (err === 'Not a valid BCrypt hash.' ||
-          err.message === 'E_WRONG_PASSWORD' ||
-          err.message === 'E_USER_NO_PASSWORD') {
+          err.code === 'E_WRONG_PASSWORD' ||
+          err.code === 'E_USER_NO_PASSWORD') {
           res.status(401).json({error: err.message || err})
         }
         else {

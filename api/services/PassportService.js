@@ -3,6 +3,7 @@
 const Service = require('trails-service')
 const jwt = require('jsonwebtoken')
 const _ = require('lodash')
+const ProviderError = require('../../lib').ProviderError
 
 /**
  * @module PassportService
@@ -43,6 +44,10 @@ module.exports = class PassportService extends Service {
    */
   endpoint(req, res, provider) {
     const strategies = this.app.config.passport.strategies, options = {}
+
+    if (!strategies[provider]) {
+      return Promise.reject(new ProviderError('E_NOT_FOUND', provider + ' can\'t be found'))
+    }
 
     // If a provider doesn't exist for this endpoint, send the user back to the
     // login page
@@ -96,9 +101,7 @@ module.exports = class PassportService extends Service {
             id = 'email'
           }
           else {
-            const err = new Error('No username or email field')
-            err.code = 'E_VALIDATION'
-            return next(err)
+            return next(new ProviderError('E_VALIDATION', 'No username or email field'))
           }
         }
 
@@ -127,7 +130,7 @@ module.exports = class PassportService extends Service {
     delete userInfos.password
 
     if (!password) {
-      const err = new Error('E_VALIDATION')
+      const err = new ProviderError('E_VALIDATION')
       err.statusCode = 400
       return Promise.reject(err)
     }
@@ -164,15 +167,15 @@ module.exports = class PassportService extends Service {
               return localPassport.save()
             }
             else {
-              throw new Error('E_NO_AVAILABLE_LOCAL_PASSPORT')
+              throw new ProviderError('E_NO_AVAILABLE_LOCAL_PASSPORT')
             }
           }
           else {
-            throw new Error('E_NO_AVAILABLE_PASSPORTS')
+            throw new ProviderError('E_NO_AVAILABLE_PASSPORTS')
           }
         }
         else {
-          throw new Error('E_USER_NOT_FOUND')
+          throw new ProviderError('E_USER_NOT_FOUND')
         }
       })
   }
@@ -221,7 +224,7 @@ module.exports = class PassportService extends Service {
           .then(passport => next(null, user))
       }
       else {
-        throw new Error('E_USER_NO_PASSWORD')
+        throw new ProviderError('E_USER_NO_PASSWORD')
       }
     }).catch(next)
   }
@@ -240,13 +243,13 @@ module.exports = class PassportService extends Service {
     return this.app.services.FootprintService.find('User', criteria, {populate: 'passports'})
       .then(user => {
         if (!user || !user[0]) {
-          throw new Error('E_USER_NOT_FOUND')
+          throw new ProviderError('E_USER_NOT_FOUND')
         }
         user = user[0]
 
         const passport = user.passports.find(passportObj => passportObj.protocol === 'local')
         if (!passport) {
-          throw new Error('E_USER_NO_PASSWORD')
+          throw new ProviderError('E_USER_NO_PASSWORD')
         }
 
         const onUserLogged = _.get(this.app, 'config.passport.onUserLogged')
@@ -259,7 +262,7 @@ module.exports = class PassportService extends Service {
 
             return valid
               ? resolve(onUserLogged(this.app, user))
-              : reject(new Error('E_WRONG_PASSWORD'))
+              : reject(new ProviderError('E_WRONG_PASSWORD'))
           })
         })
       })
