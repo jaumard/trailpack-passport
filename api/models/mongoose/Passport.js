@@ -23,11 +23,11 @@ module.exports = {
       protocol: {
         type: String,
         match: /^[a-zA-Z0-9]+$/,
-        required: false
+        required: true
       },
       password: {
         type: String,
-        required: true,
+        required: false,
         minlength: 8
       },
 
