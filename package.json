@@ -30,7 +30,7 @@
     "joi": "10.5.0",
     "jsonwebtoken": "7.4.1",
     "lodash": "^4.17.4",
-    "passport": "^0.3.2",
+    "passport": "^0.4.0",
     "trailpack": "^2.1.2"
   },
   "devDependencies": {
