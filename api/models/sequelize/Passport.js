@@ -24,6 +24,7 @@ module.exports = {
                 values.password = hash
               })
             }
+          }
         },
         classMethods: {
           //If you need associations, put them here
