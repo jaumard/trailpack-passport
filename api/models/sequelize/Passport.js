@@ -1,5 +1,4 @@
 'use strict'
-const hashPassword = require('../hashPassword')
 
 /**
  * @module Passport for sequelize ORM
@@ -11,13 +10,20 @@ module.exports = {
       //More informations about supported models options here : http://docs.sequelizejs.com/en/latest/docs/models-definition/#configuration
       options: {
         hooks: {
-          beforeCreate: (values, options, fn) => {
-            hashPassword(app.config.passport.bcrypt, values, fn)
+          beforeCreate: (values, options) => {
+            if (values.password) {
+              return app.config.passport.bcrypt.hash(values.password, 10).then(hash => {
+                values.password = hash
+              })
+            }
           },
-          beforeUpdate: (values, options, fn) => {
+          beforeUpdate: (values, options) => {
             options.validate = false // skip re-validation of password hash
-            hashPassword(app.config.passport.bcrypt, values, fn)
-          }
+            if (values.password) {
+              return app.config.passport.bcrypt.hash(values.password, 10).then(hash => {
+                values.password = hash
+              })
+            }
         },
         classMethods: {
           //If you need associations, put them here
