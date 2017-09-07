@@ -11,12 +11,12 @@ module.exports = {
       //More informations about supported models options here : http://docs.sequelizejs.com/en/latest/docs/models-definition/#configuration
       options: {
         hooks: {
-          beforeCreate: (values, options) => {
-            return hashPassword(app.config.passport.bcrypt, values)
+          beforeCreate: (values, options, fn) => {
+            return hashPassword(app.config.passport.bcrypt, values, fn)
           },
-          beforeUpdate: (values, options) => {
+          beforeUpdate: (values, options, fn) => {
             options.validate = false // skip re-validation of password hash
-            return hashPassword(app.config.passport.bcrypt, values)
+            return hashPassword(app.config.passport.bcrypt, values, fn)
           }
         },
         classMethods: {
