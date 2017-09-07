@@ -1,4 +1,5 @@
 'use strict'
+const hashPassword = require('../hashPassword')
 
 /**
  * @module Passport for sequelize ORM
@@ -11,19 +12,11 @@ module.exports = {
       options: {
         hooks: {
           beforeCreate: (values, options) => {
-            if (values.password) {
-              return app.config.passport.bcrypt.hash(values.password, 10).then(hash => {
-                values.password = hash
-              })
-            }
+            return hashPassword(app.config.passport.bcrypt, values)
           },
           beforeUpdate: (values, options) => {
             options.validate = false // skip re-validation of password hash
-            if (values.password) {
-              return app.config.passport.bcrypt.hash(values.password, 10).then(hash => {
-                values.password = hash
-              })
-            }
+            return hashPassword(app.config.passport.bcrypt, values)
           }
         },
         classMethods: {
