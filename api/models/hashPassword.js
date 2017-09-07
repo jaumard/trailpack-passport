@@ -7,12 +7,24 @@
  */
 module.exports = (bcrypt, passport, next) => {
   if (passport.password) {
-    bcrypt.hash(passport.password, 10, (err, hash) => {
-      passport.password = hash
-      next(err, passport)
-    })
+    if (next) {
+      bcrypt.hash(passport.password, 10, (err, hash) => {
+        passport.password = hash
+        next(err, passport)
+      })
+    }
+    else {
+      return bcrypt.hash(passport.password, 10).then(hash =>
+        passport.password = hash
+      )
+    }
   }
   else {
-    next(null, passport)
+    if (next) {
+      next(null, passport)
+    }
+    else {
+      return Promise.resolve(passport)
+    }
   }
 }

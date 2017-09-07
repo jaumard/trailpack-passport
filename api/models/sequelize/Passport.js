@@ -12,11 +12,11 @@ module.exports = {
       options: {
         hooks: {
           beforeCreate: (values, options, fn) => {
-            hashPassword(app.config.passport.bcrypt, values, fn)
+            return hashPassword(app.config.passport.bcrypt, values, fn)
           },
           beforeUpdate: (values, options, fn) => {
             options.validate = false // skip re-validation of password hash
-            hashPassword(app.config.passport.bcrypt, values, fn)
+            return hashPassword(app.config.passport.bcrypt, values, fn)
           }
         },
         classMethods: {
