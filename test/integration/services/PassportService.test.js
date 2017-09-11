@@ -104,7 +104,7 @@ describe('PassportService', () => {
       .set('Accept', 'application/json') //set header for this test
       .expect(200)
       .end((err, res) => {
-        assert.equal(res.text, 'ok')
+        assert.equal('ok', res.text)
         done(err)
       })
   })
