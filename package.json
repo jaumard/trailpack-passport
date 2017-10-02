@@ -28,7 +28,7 @@
   "dependencies": {
     "bcryptjs": "2.4.3",
     "joi": "10.5.0",
-    "jsonwebtoken": "8.0.0",
+    "jsonwebtoken": "8.0.1",
     "lodash": "^4.17.4",
     "passport": "^0.4.0",
     "trailpack": "^2.1.2"
