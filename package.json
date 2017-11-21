@@ -49,7 +49,7 @@
     "trailpack-router": "^2.1.0",
     "trailpack-sequelize": "^2.0.0",
     "trailpack-waterline": "^2.0.0",
-    "trails": "2.0.2"
+    "trails": "3.0.3"
   },
   "scripts": {
     "test": "eslint --fix . && npm run testWaterline && npm run testSequelize && npm run testMongoose",
