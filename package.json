@@ -27,11 +27,11 @@
   ],
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "joi": "^12.0.0",
+    "joi": "^13.0.2",
     "jsonwebtoken": "^8.1.0",
     "lodash": "^4.17.4",
     "passport": "^0.4.0",
-    "trailpack": "^2.1.3"
+    "trailpack": "^3.0.0"
   },
   "devDependencies": {
     "eslint": "^4.11.0",
@@ -41,15 +41,15 @@
     "passport-jwt": "^3.0.1",
     "passport-local": "^1.0.0",
     "sails-disk": "^0.10.10",
-    "smokesignals": "^2",
+    "smokesignals": "^3.0.4",
     "sqlite3": "^3.1.13",
     "supertest": "^3.0.0",
     "trailpack-express": "^2.0.7",
     "trailpack-mongoose": "^2.1.1",
-    "trailpack-router": "^2.1.0",
-    "trailpack-sequelize": "^2.0.0",
-    "trailpack-waterline": "^2.0.0",
-    "trails": "^2.0.2"
+    "trailpack-router": "^3.1.4",
+    "trailpack-sequelize": "^3.0.0",
+    "trailpack-waterline": "^3.0.1",
+    "trails": "^3.0.3"
   },
   "scripts": {
     "test": "eslint --fix . && npm run testWaterline && npm run testSequelize && npm run testMongoose",
