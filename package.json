@@ -1,6 +1,6 @@
 {
   "name": "trailpack-passport",
-  "version": "2.2.3",
+  "version": "2.2.4",
   "description": "Trailpack to allow passport authentification to Trails application",
   "homepage": "https://github.com/jaumard/trailpack-passport",
   "author": {
@@ -27,7 +27,7 @@
   ],
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "joi": "^13.0.2",
+    "joi": "^12.0.0",
     "jsonwebtoken": "^8.1.0",
     "lodash": "^4.17.4",
     "passport": "^0.4.0",
