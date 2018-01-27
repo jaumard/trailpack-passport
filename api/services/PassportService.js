@@ -1,6 +1,6 @@
 'use strict'
 
-const Service = require('trails/lib/service')
+const Service = require('trails/lib/Service')
 const jwt = require('jsonwebtoken')
 const _ = require('lodash')
 const ProviderError = require('../../lib').ProviderError

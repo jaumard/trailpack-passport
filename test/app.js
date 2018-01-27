@@ -53,7 +53,7 @@ const App = {
   },
   api: {
     controllers: {
-      DefaultController: class DefaultController extends require('trails/controller') {
+      DefaultController: class DefaultController extends require('trails/lib/controller') {
         info(req, res){
           res.send('ok')
         }
