@@ -8,7 +8,8 @@ module.exports = {
     return {
       schema: {
         timestamps: true,
-        versionKey: false
+        versionKey: false,
+        usePushEach: true
       },
       onSchema: (app, schema) => {
         schema.pre('save', function(next) {

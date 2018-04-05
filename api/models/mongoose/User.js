@@ -5,7 +5,8 @@ module.exports = {
     return {
       schema: {
         timestamps: true,
-        versionKey: false
+        versionKey: false,
+        usePushEach: true
       },
       methods: {
         toJSON: function() {

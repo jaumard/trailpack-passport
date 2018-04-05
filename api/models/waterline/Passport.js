@@ -66,7 +66,7 @@ module.exports = {
       // and a `refreshToken` will be issued.
       provider: {type: 'alphanumericdashed'},
       identifier: {type: 'string'},
-      tokens: {type: 'string'},
+      tokens: { type: 'text' },
 
       // Associations
       //

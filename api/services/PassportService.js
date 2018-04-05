@@ -36,6 +36,10 @@ module.exports = class PassportService extends Service {
     )
   }
 
+  getRedirectTo(req) {
+    return req.session && req.session.redirectTo
+  }
+
   /**
    * Redirect to the right provider URL for login
    * @param req request object
@@ -45,6 +49,10 @@ module.exports = class PassportService extends Service {
   endpoint(req, res, provider) {
     const strategies = this.app.config.passport.strategies, options = {}
 
+    if (req.session && req.query && req.query.redirectTo) {
+      req.session.redirectTo = req.query.redirectTo
+    }
+
     if (!strategies[provider]) {
       return Promise.reject(new ProviderError('E_NOT_FOUND', provider + ' can\'t be found'))
     }
@@ -52,7 +60,7 @@ module.exports = class PassportService extends Service {
     // If a provider doesn't exist for this endpoint, send the user back to the
     // login page
     if (!strategies.hasOwnProperty(provider)) {
-      return Promise.reject(this.app.config.passport.redirect.login)
+      return Promise.reject(this.getRedirectTo() || this.app.config.passport.redirect.login)
     }
 
     // Attach scope if it has been set in the config
@@ -154,9 +162,9 @@ module.exports = class PassportService extends Service {
    * @returns {Promise}
    */
   updateLocalPassword(user, password) {
-    const criteria = (user._id) ? {_id: user.id} : {id: user.id} //eslint-disable-line
+    const criteria = (user._id) ? { _id: user.id } : { id: user.id } //eslint-disable-line
 
-    return this.app.services.FootprintService.find('user', criteria, {populate: 'passports'})
+    return this.app.services.FootprintService.find('user', criteria, { populate: 'passports' })
       .then(user => {
         if (user && user.length > 0) {
           user = user[0]
@@ -195,7 +203,7 @@ module.exports = class PassportService extends Service {
     return this.app.services.FootprintService.find('passport', {
       protocol: 'local',
       user: user.id
-    }, {findOne: true}).then(passport => {
+    }, { findOne: true }).then(passport => {
       if (!passport) {
         return this.app.services.FootprintService.createAssociation('user', user.id, 'passport', {
           protocol: 'local',
@@ -240,7 +248,7 @@ module.exports = class PassportService extends Service {
 
     criteria[fieldName] = identifier
 
-    return this.app.services.FootprintService.find('User', criteria, {populate: 'passports'})
+    return this.app.services.FootprintService.find('User', criteria, { populate: 'passports' })
       .then(user => {
         if (!user || !user[0]) {
           throw new ProviderError('E_USER_NOT_FOUND')
