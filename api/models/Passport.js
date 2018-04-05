@@ -1,6 +1,6 @@
 'use strict'
 
-const Model = require('trails/model')
+const Model = require('trails/lib/Model')
 
 /**
  * @module Passport
@@ -10,13 +10,13 @@ module.exports = class Passport extends Model {
 
   static config(app, orm) {
     if (app) {
-      return require('./' + app.config.database.orm).Passport.config(app, orm)
+      return require('./' + app.config.get('stores.orm')).Passport.config(app, orm)
     }
   }
 
   static schema(app, orm) {
     if (app) {
-      return require('./' + app.config.database.orm).Passport.schema(app, orm)
+      return require('./' + app.config.get('stores.orm')).Passport.schema(app, orm)
     }
   }
 

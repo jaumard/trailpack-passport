@@ -1,6 +1,6 @@
 'use strict'
 
-const Model = require('trails/model')
+const Model = require('trails/lib/Model')
 
 /**
  * @module User
@@ -10,13 +10,13 @@ module.exports = class User extends Model {
 
   static config(app, orm) {
     if (app) {
-      return require('./' + app.config.database.orm).User.config(app, orm)
+      return require('./' + app.config.get('stores.orm')).User.config(app, orm)
     }
   }
 
   static schema(app, orm) {
     if (app) {
-      return require('./' + app.config.database.orm).User.schema(app, orm)
+      return require('./' + app.config.get('stores.orm')).User.schema(app, orm)
     }
   }
 

@@ -22,7 +22,7 @@ module.exports = class PassportTrailpack extends Trailpack {
     }
 
     const strategies = this.app.config.passport.strategies
-    if (!strategies || (strategies && Object.keys(strategies).length == 0)) {
+    if (!strategies || (strategies && Object.keys(strategies).length === 0)) {
       return Promise.reject(new Error('No strategies found at config.passport.strategies !'))
     }
 

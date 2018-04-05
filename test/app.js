@@ -53,20 +53,18 @@ const App = {
   },
   api: {
     controllers: {
-      DefaultController: class DefaultController extends require('trails/controller') {
-        info(req, res){
+      DefaultController: class DefaultController extends require('trails/lib/Controller') {
+        info(req, res) {
           res.send('ok')
         }
       }
     }
   },
   config: {
-    database: {
-      stores: stores,
-      models: {
-        defaultStore: 'sqlitedev',
-        migrate: 'drop'
-      }
+    stores: stores,
+    models: {
+      defaultStore: 'sqlitedev',
+      migrate: 'drop'
     },
     passport: {
       onUserLogged: (app, user) => {

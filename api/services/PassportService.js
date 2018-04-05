@@ -1,6 +1,6 @@
 'use strict'
 
-const Service = require('trails/service')
+const Service = require('trails/lib/Service')
 const jwt = require('jsonwebtoken')
 const _ = require('lodash')
 const ProviderError = require('../../lib').ProviderError
@@ -231,6 +231,7 @@ module.exports = class PassportService extends Service {
 
   /**
    * Log a user and check password
+   * @param fieldName
    * @param identifier of the user
    * @param password of the user
    * @returns {Promise} promise for next calls
