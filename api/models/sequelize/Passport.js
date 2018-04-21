@@ -51,7 +51,7 @@ module.exports = {
 
       provider: {type: Sequelize.STRING, allowNull: true},
       identifier: {type: Sequelize.STRING, allowNull: true},
-      tokens: {type: Sequelize.STRING, allowNull: true}
+      tokens: { type: Sequelize.TEXT, allowNull: true }
 
     }
   }

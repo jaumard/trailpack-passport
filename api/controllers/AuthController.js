@@ -68,7 +68,7 @@ module.exports = class AuthController extends Controller {
             // will be available.
             if (req.wantsJSON) {
               const result = {
-                redirect: this.app.config.passport.redirect.login,
+                redirect: this._getRedirectTo(req) || this.app.config.passport.redirect.login,
                 user: user
               }
 
@@ -78,12 +78,16 @@ module.exports = class AuthController extends Controller {
               res.json(result)
             }
             else {
-              res.redirect(this.app.config.passport.redirect.login)
+              res.redirect(this._getRedirectTo(req) || this.app.config.passport.redirect.login)
             }
           }
         })
       }
     })
+  }
+
+  _getRedirectTo(req) {
+    return this.app.services.PassportService.getRedirectTo(req)
   }
 
   /**
