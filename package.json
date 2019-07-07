@@ -31,7 +31,8 @@
     "jsonwebtoken": "^8.1.0",
     "lodash": "^4.17.4",
     "passport": "^0.4.0",
-    "trailpack": "^2.1.3"
+    "trailpack": "^2.1.3",
+    "snyk": "^1.192.3"
   },
   "devDependencies": {
     "eslint": "^4.11.0",
@@ -55,7 +56,9 @@
     "test": "eslint --fix . && npm run testWaterline && npm run testSequelize && npm run testMongoose",
     "testWaterline": "export ORM=waterline;mocha",
     "testSequelize": "export ORM=sequelize;mocha",
-    "testMongoose": "export ORM=mongoose;mocha"
+    "testMongoose": "export ORM=mongoose;mocha",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "engines": {
     "node": ">= 4.0.0"
@@ -64,5 +67,6 @@
     "extends": "trails"
   },
   "repository": "https://github.com/jaumard/trailpack-passport",
-  "license": "MIT"
+  "license": "MIT",
+  "snyk": true
 }
