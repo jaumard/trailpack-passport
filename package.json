@@ -40,7 +40,7 @@
     "mocha": "^4.0.1",
     "passport-jwt": "^3.0.1",
     "passport-local": "^1.0.0",
-    "sails-disk": "^0.10.10",
+    "sails-disk": "^2.0.0",
     "smokesignals": "^2",
     "sqlite3": "^3.1.13",
     "supertest": "^3.0.0",
